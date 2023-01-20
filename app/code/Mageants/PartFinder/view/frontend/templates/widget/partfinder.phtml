@@ -1,0 +1,57 @@
+<?php
+$partid = $this->getPartFinderId();
+$partFinderData=$this->getPartFinderData($partid);
+if($partFinderData){
+$partfinder = $this->getPartFinder();
+$finder_options = $this->getFinderOption();
+$finder_options_count = $finder_options->getSize();
+$_helper = $this->getPartFinderHelper();
+$lavel = 0;
+?>
+<div class="<?php echo $this->getFinderTemplateClass()?> partfinder-container" style="background-color: #1f275c;padding: 10px;">
+	<form action="<?php echo $this->getFormAction();?>" class="container partfinder-form" id="partfinder-form-<?php echo $partfinder->getId()?>" method="get">
+		<div class="fieldset finder-options">
+			<input type="hidden" name="url" id="searchUrl">
+			<ul>
+			<?php foreach($finder_options as $key=>$option):?>
+				<li class="fieldset option-<?php echo $option->getId()?> <?php echo $finder_options_count == ($lavel+1) ? "last" : ($lavel == 0 ? "first" : "center")?>">
+				  <div class="field">
+					<div class="finder-option-title label">
+						<label class="label" style="color: white;"><span><?php echo $option->getName()?></span></label>
+					</div>
+					<div class="finder-option-dropdown">
+						<select class="<?php echo $finder_options_count == ($lavel+1) ? "last-option" : ""?>" name="finderoption[<?php echo $option->getId()?>]" data-option-url="<?php echo $this->getFinderOptionUrl($option->getId());?>" data-id="<?php echo $option->getId()?>" data-lavel="<?php echo $lavel++ ?>" id="finder-option-select-<?php echo $option->getId()?>">
+							<option value="0"><?php echo __("Please Select ...")?></option>
+						</select>
+					</div>
+					</div>
+				</li>
+			<?php endforeach?>
+			</ul>
+		</div>
+		<div class="fieldset finder-actions">
+			<button class="button action primary go-action" title="<?php echo __("Go") ?>" type="submit" disabled>
+				<span>
+					<span>
+						<?php echo __("Go") ?>
+					</span>
+				</span>
+			</button>
+			<a class="button action primary reset-action" name="reset" value="1" title="<?php echo __("Reset") ?>" type="reset" href="<?php echo $this->getFormAction();?>">
+				<span>
+					<span>
+						<?php echo __("Reset") ?>
+					</span>
+				</span>
+			</a>
+		</div>
+	</form>
+</div>
+<script>
+var partfinder_config = {
+		enable_btn_on_any_one: <?php echo $_helper->getDisplayButtonConfig()?>,
+		auto_search_on_last_opt_select: <?php echo $_helper->getAutoStartSearch()?>
+	};
+require(['jquery', 'mageants/partfinder'],function($, partfinder) {});
+</script>
+<?php } ?>

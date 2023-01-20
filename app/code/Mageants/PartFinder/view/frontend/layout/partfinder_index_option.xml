@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants PartFinder
+ * @package   Mageants_PartFinders
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">	
+	<container name="root" label="Root">
+        <block class="Mageants\PartFinder\Block\Frontend\Options" name="partfinder.question" before="athlete2_slideshow" template="Mageants_PartFinder::finder-option.phtml" ifconfig="mageants_partfinder/general/enable"></block>
+    </container>
+</layout>
+

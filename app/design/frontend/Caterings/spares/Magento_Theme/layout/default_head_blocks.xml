@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../vendor/magento/framework/Module/etc/module.xsd">
+	<head>
+		<css src="css/catering.css" order="100"/>	
+		<css src="fonts/bigmug-line_coders/css/fl-36-slim-icons.css"/>
+		<css src="fonts/bigmug-line_coders/css/fl-bigmug-line.css"/> 
+		<css src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.css" src_type="url" />
+		 
+	</head>
+	
+    <body>
+        <referenceBlock name="cookie-status-check" remove="true"/>
+    </body>
+
+	
+</page>

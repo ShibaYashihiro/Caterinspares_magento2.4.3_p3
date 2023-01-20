@@ -1,0 +1,134 @@
+<?php
+$helper = $this->helper('MGS\Blog\Helper\Data');
+$collection = $block->getCollection();
+$showThumbnail = $this->getConfig('general_settings/show_thumbnail');
+
+?>
+<div class="page-title blog-title center">
+    <h2>Blog</h2>
+</div>
+<?php if (!count($collection)): ?>
+    <div class="message info empty">
+        <div><?php echo __('Have no posts.') ?></div>
+    </div>
+<?php else: ?>
+    <div class="page-products top-toolbar" style="width:100%;">
+         <?php echo $block->getPagerHtml(); ?>
+    </div>
+
+    <div class="blog-list">
+        <?php foreach ($collection as $post): ?>
+            <div class="blog-post item">
+                <?php if ($showThumbnail): ?>
+                    <div class="post-thumbnail">
+                        <?php echo $helper->getThumbnailPost($post); ?>
+                    </div>
+                <?php endif; ?>
+                <h2 class="post-title">
+                    <a class="post-title-link" title="<?php echo $post->getTitle(); ?>" href="<?php echo $post->getPostUrlWithNoCategory(); ?>"><?php echo $post->getTitle(); ?></a>
+                </h2>
+                
+                <?php if ($post->getShortContent()): ?>
+                    <div class="post-content short-description">
+                        <?php echo $post->getShortContent(); ?>
+						
+                    </div>
+                <?php endif; ?>
+                <div class="postDetails">
+                    <?php $categories = $post->getCatetories(); ?>
+					<?php if (count($categories)): ?>
+                    <span class="postDetails-user"> 
+                    <?php echo __('Posted in ') ?>
+                    <?php foreach ($categories as $category): ?>
+								<a title="<?php echo $category->getTitle(); ?>" href="<?php echo $category->getCategoryUrl(); ?>"><?php echo $category->getTitle(); ?></a>
+							<?php endforeach; ?>
+                    <?php if ($post->getUpdatedByUser()): ?>
+                        <?php echo __('by %1', $post->getUpdatedByUser()); ?>&nbsp;&nbsp;<span class="postDetails-date"><?php echo __('%1', $block->formatDate($post->getCreatedAt(), \IntlDateFormatter::MEDIUM, false)); ?></span>
+                    <?php else: ?>
+                        <?php echo __('by %1', $post->getUser()); ?>&nbsp;&nbsp;<span class="postDetails-date"><?php echo __('%1', $block->formatDate($post->getCreatedAt(), \IntlDateFormatter::MEDIUM, false)); ?></span>
+                    <?php endif; ?>
+                    </span>
+                    <?php endif; ?>
+                </div>
+                <div class="post-info">					
+					<?php if ($this->getConfig('comment_settings/enabled')): ?>
+						<div class="comment-link">
+							<a href="<?php echo $post->getPostUrlWithNoCategory(); ?>#comment-box"><?php echo __('%1 Comment(s)', $post->getCommentCount()) ?></a>
+						</div>
+					<?php endif; ?>
+                </div>
+                <div class="post-link">
+							<a class="btn btn-primary" title="<?php echo __('Read More'); ?>" href="<?php echo $post->getPostUrlWithNoCategory(); ?>"><?php echo __('Read More'); ?></a>
+				</div>
+            </div>
+			<!--<hr>-->
+        <?php endforeach; ?>
+    </div>
+    
+<?php endif; ?>
+
+
+
+
+<script>
+    require(['jquery','owlcarousel'], function ($) {
+        $(function(){
+            /*$(".blog-list").owlCarousel({
+                items: 2,
+                itemsDesktop : [1199,3],
+                itemsDesktopSmall: [960,2],
+                itemsTablet: [767,1],
+                autoPlay:14000,
+                stopOnHover:true,
+                pagination: false,
+                transitionStyle:false,
+                navigation: true,
+                itemsMobile : true,
+                nav: true
+            });*/
+
+            $('[data-role="sorter"], [data-role="limiter"]').on("change", function(){
+                getrecipeFilterUrlAndFire(false);
+            });
+			
+			$('[data-role="direction-switcher"]').on("click", function(){
+                getrecipeFilterUrlAndFire(false);
+            });
+            
+            function getrecipeFilterUrlAndFire(applyPage){
+				require(['jquery'], function($){
+                    var checkedValue = [];  
+                    if(applyPage){
+                        var currentPage = $('.top-toolbar .pager_current_page').val();
+                        checkedValue.push('p='+ currentPage);
+                    }
+					
+                    var limiter = $('.top-toolbar [data-role="limiter"]').val();
+                    checkedValue.push('limit='+ limiter);
+					
+                    var sorter = $('.top-toolbar [data-role="sorter"]').val();
+                    checkedValue.push('sort='+ sorter);
+					
+					var direction = $('.top-toolbar [data-role="direction-switcher"]').data('value');
+                    checkedValue.push('direction='+ direction);
+                   console.log(checkedValue)
+                    var parameterList = checkedValue.join('&');
+                    var filterUrl = '<?php echo $block->getCurrentUrl() ?>';
+                    if(parameterList != ''){
+                        filterUrl += "?" + parameterList;
+                    }
+					
+					//alert(filterUrl);
+                    fireRecipeAjax(filterUrl);
+                });
+            }
+
+
+            function fireRecipeAjax(url){
+                window.location.href = url;
+            }
+            
+        });
+
+    });
+</script>

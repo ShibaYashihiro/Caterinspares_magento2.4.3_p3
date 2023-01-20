@@ -1,0 +1,10 @@
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Mageplaza_Sitemap::css/sitemap.css"/>
+    </head>
+    <referenceContainer name="content">
+        <block class="Bss\HtmlSiteMap\Block\ProductCollection" name="product.sitemap" template="Bss_HtmlSiteMap::product_sitemap.phtml">
+        </block>
+    </referenceContainer>
+</page>

@@ -1,0 +1,10 @@
+.page-print {
+    .logo {
+        display: block;
+        float: none;
+        text-align: left;
+        .retina{
+            display:none;
+        }
+    }
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<!--
+ /**
+ * @category  Mageants Part Finder
+ * @package  Mageants_PartFinder
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
+    <module name="Mageants_PartFinder" setup_version="2.0.8">
+    </module>
+</config>

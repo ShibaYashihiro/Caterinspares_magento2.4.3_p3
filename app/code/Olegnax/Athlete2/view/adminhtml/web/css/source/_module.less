@@ -1,0 +1,358 @@
+/**
+ * Olegnax
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Olegnax.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.olegnax.com/license
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Olegnax
+ * @package     Olegnax_Athlete2
+ * @copyright   Copyright (c) 2010-2019 Olegnax (http://www.olegnax.com/)
+ * @license     https://www.olegnax.com/license
+ */
+
+@import '_icons.less';
+
+@athlete2__support-icon--active: '@{baseDir}Olegnax_Athlete2/images/support-icon-black.png';
+@athlete2__support-icon--expired: '@{baseDir}Olegnax_Athlete2/images/support-icon-white.png';
+@athlete2__license-icon--disable: '@{baseDir}Olegnax_Athlete2/images/warning-icon.png';
+@athlete2__license-icon--active: '@{baseDir}Olegnax_Athlete2/images/license-icon.png';
+
+.admin__menu .item-olegnax-athlete2.parent.level-0 > a:before {
+  content: @icon-athlete2__content;
+  font-family: @icons-athlete2__font-name;
+  font-size: 17px;
+}
+
+.ox-admin__import{
+    display:flex;
+    flex-wrap:wrap;
+    .ox-admin-import__name{
+        display: block;  
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 12px 0;
+    }
+}
+
+.ox-admin-import__block{
+    text-align: center;
+    text-align: center;
+    padding: 20px;
+    background: #f8f8f8;
+    margin: 5px;
+    img{
+        display: block;
+        width: 300px;
+        height: 300px;
+    }
+}
+
+.ox-admin__modal{
+    background: rgba(105, 105, 105, 0.36);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 880;
+    overflow: hidden;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    &.opened{
+        display: flex;
+
+    }
+}
+.ox-admin-modal__inner{
+    position: relative;
+    background-color: #ffffff;
+    max-width: 600px;
+    width: 100%;
+    padding: 40px;
+    max-height: 100vh;
+    h3,
+    h2{
+        font-weight: 700;
+    }
+    h2{
+        font-size: 1.7em;
+        margin-bottom: 40px;
+    }
+    .attention{
+        color:#a91e1e;
+    }
+    table{
+        h3{
+            margin: 0;
+        }
+        text-align: left;
+        width: 100%;
+        tr{
+            td{
+                padding: 14px 10px;
+                border-bottom: 1px solid #e6e6e6;
+                &:last-of-type{
+                    text-align: right;
+                }
+            }
+            &:last-of-type{
+                td{
+                    border-bottom: none;
+                }
+                
+            }
+        }
+    }
+}
+.ox-overlay-close-btn {
+    cursor: pointer;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 10px;
+    z-index: 90;
+    transition: transform .3s ease .3s;
+    transition-property: transform, -webkit-transform, opacity;
+    span {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      position: relative;
+      overflow: hidden;
+        &:before,
+        &:after {
+          content: '';
+          position: absolute;
+          height: 2px;
+          width: 100%;
+          top: 50%;
+          left: 0;
+          margin-top: -1px;
+          background-color: #ffffff;
+          transform-origin: 50% 50%;
+          opacity: 1;
+          -moz-transition: -moz-transform ease 0.3s;
+          -webkit-transition: -webkit-transform ease 0.3s;
+          -o-transition: -o-transform ease 0.3s;
+          -ms-transition: -ms-transform ease 0.3s;
+          transition: transform ease 0.3s;
+        }
+        &:before {
+          -webkit-transform: rotate(45deg);
+          -moz-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
+          -o-transform: rotate(45deg);
+          transform: rotate(45deg);
+        }        
+        &:after {
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+      }
+    
+    }
+    &:hover span{
+        &:before,
+        &:after {
+          -webkit-transform: rotate(0);
+          -moz-transform: rotate(0);
+          -ms-transform: rotate(0);
+          -o-transform: rotate(0);
+          transform: rotate(0);
+        }
+    }
+}
+.rewrite-status{
+    padding: 4px 8px;
+    display: inline-block;
+}
+.rewrite-status-ok{
+    background: #88c318;
+    color: #fff;
+}
+.rewrite-status-nok{
+    background: #e32626;
+    color: #fff;
+}
+
+.ox-settings-spacer {
+    margin: 2.2rem 0 1.2rem;
+    border: 0;
+    border-bottom: 1px solid #cccccc;
+}
+
+.accordion .config {
+    .value{
+        width: 70%!important;
+    }
+    label {
+        width: 25%!important;
+    }
+}
+.ox-license-status{
+    h2{
+        font-size: 18px;
+        font-weight: 600;
+        color: #1d1d1d;
+        margin-bottom: 0;
+        a{
+            margin-left: 10px;
+            text-decoration: none;
+            color: #004eff;
+            border-bottom: 2px solid #004eff;
+            &:hover{
+                color: #000;
+                border-color: #000;
+            }
+        }
+    }
+}
+.ox-license-status{
+    margin-bottom: 22px;
+    box-shadow: 0px 4px 22px 0px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    .undelined{
+       border-bottom: 2px solid;
+    }
+    .icon{
+        width: 100px;
+        height: 100px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &.ox-notice-license{
+        .icon{
+            width: 80px;
+            height: 80px;
+        }
+    }
+    .inner{
+        padding: 12px 26px;
+    }
+    &.support-expired,
+    &.status-disable{
+        .undelined{
+            border-color: #f03d1b;
+        }
+    }
+    &.status-active,
+    &.support-active{
+        .undelined{
+            border-color: #bfe834;
+        }
+    }
+    .icon:before{
+        content: '';
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    &.status-disable .icon:before{
+        background-image: url(@athlete2__license-icon--disable);
+    }
+    &.status-active .icon:before{
+        background-image: url(@athlete2__license-icon--active);
+    }
+    &.support-expired .icon:before{
+        background-image: url(@athlete2__support-icon--expired);
+    }
+    &.support-active .icon:before{
+        background-image: url(@athlete2__support-icon--active);
+    }
+    &.support-expired,
+    &.status-disable{
+        .icon{
+            background: #f03d1b;
+        }
+    }
+    &.support-active,
+    &.status-active{
+        .icon{
+            background: #bfe834;
+        }
+    }
+    .button{
+        padding: 10px 18px;
+        color: #1d1d1d;
+        border-radius: 3px;
+        background: #c7ed35;
+        text-transform: uppercase;
+        font-weight: 800;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        &:hover{
+            color: #ffffff;
+            background: #393939;
+        }
+    }
+    .right{
+        margin-left: auto;
+        padding-right: 26px;
+    }
+}
+
+.ox-license-status__block{
+    padding: 13px 19px;
+    background: #e02c22;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+}
+.status-active .ox-license-status__block{
+        background: #9eca1d;
+}
+.license-description{
+    padding:40px;
+    border: 3px solid #f5f5f5;
+    margin-bottom: 20px;
+    ul{
+        padding-left: 17px;
+    }
+}
+.ox-subtitle{
+    font-weight:700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color:#1d1d1d;
+}
+.license-description-gray{
+    background:#f5f5f5;
+    padding:40px;
+    margin-top: -20px;
+}
+.two-blocks{
+    display:flex;
+    > .ox-license-status{
+        width: 100%;
+        max-width:50%;
+        &:first-child{
+            margin-right:15px;
+        }
+        &:last-child{
+            margin-left:15px;
+        }
+    }
+}
+#athlete2_license_general_code.input-text{
+    height: 50px;
+    border-width: 2px;
+}

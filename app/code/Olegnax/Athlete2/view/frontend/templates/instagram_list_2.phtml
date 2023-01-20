@@ -1,0 +1,98 @@
+<?php
+/** @var Olegnax\Athlete2\Block\Widget\Instagram $block */
+
+$items = $block->getImages();
+if (count($items)):
+    $classes = [];
+    $classes[] = 'resize-' . $this->getImageResize();
+    $classes[] = 'columns-' . $this->getColumnsDesktop();
+    $classes[] = 'columns-m-' . $this->getColumnsTablet();
+    $classes[] = 'columns-s-' . $this->getColumnsMobile();
+    $square = ($this->getImageResize() == 'square') ?: 0;
+	$nolazy = ($this->getLazyLoad() === 'exclude') ?: 0;
+    ?>
+	<div id="ox_<?= $block->getUnderlineNameInLayout() ?>" class="ox-instagram-feed block widget <?=
+    implode(' ', $classes)
+    ?>">
+		<div class="ox-instagram-items">
+			<div class="first-image">
+                <?php $_item = array_shift($items); ?>
+				<div id="<?= $_item->id ?>" class="ox-instagram-item">
+					<a target="_blank" href="<?= $block->escapeUrl($_item->link) ?>" class="ox-instagram-item-link">
+                        <?php if ($square) { ?><span class="image-wrapper"><?php } ?>
+						<img
+    						<?php if ($block->isLazyLoadEnabled() && !$nolazy): ?>
+								class="ox-instagram-image lazy <?php if ($_item->image->width > $_item->image->height) {
+                                    echo 'horizontal';
+                                } ?>"
+								src="<?= $this->getViewFileUrl('Olegnax_Core/images/preloader-img.svg'); ?>"
+								data-original="<?= /* @escapeNotVerified */
+                                $_item->image->url ?>"
+                            <?php else: ?>
+								class="ox-instagram-image no-lazy <?php if ($_item->image->width > $_item->image->height) {
+                                    echo 'horizontal';
+                                } ?>"
+								src="<?= /* @escapeNotVerified */
+                                $_item->image->url ?>"
+                            <?php endif; ?>
+							width="<?= /* @escapeNotVerified */
+                            $_item->image->width ?>"
+							height="<?= /* @escapeNotVerified */
+                            $_item->image->height ?>"
+							alt="<?=
+                            /* @escapeNotVerified */
+                            $block->stripTags($_item->caption, null, true)
+                            ?>"/>
+						<?php if ($square) { ?></span><?php } ?>
+						<span class="inner">
+							<span class="action likes"><span><?= $_item->likes ?></span></span>
+							<span class="action view"></span>
+						</span>
+					</a>
+				</div>
+			</div>
+            <?php if (!empty($items)): ?>
+				<div class="other-images">
+					<div class="row no-gutters">
+                        <?php foreach ($items as $_item): ?>
+							<div id="<?= $_item->id ?>" class="ox-instagram-item">
+								<a target="_blank" href="<?= $block->escapeUrl($_item->link) ?>"
+								   class="ox-instagram-item-link">
+                                    <?php if ($square) { ?><span class="image-wrapper"><?php } ?>										
+										<img
+											<?php if ($block->isLazyLoadEnabled() && !$nolazy): ?>
+												class="ox-instagram-image lazy <?php if ($_item->image->width > $_item->image->height) {
+													echo 'horizontal';
+												} ?>"
+												src="<?= $this->getViewFileUrl('Olegnax_Core/images/preloader-img.svg'); ?>"
+												data-original="<?= /* @escapeNotVerified */
+												$_item->image->url ?>"
+											<?php else: ?>
+												class="ox-instagram-image no-lazy <?php if ($_item->image->width > $_item->image->height) {
+													echo 'horizontal';
+												} ?>"
+												src="<?= /* @escapeNotVerified */
+												$_item->image->url ?>"
+											<?php endif; ?>
+											width="<?= /* @escapeNotVerified */
+											$_item->image->width ?>"
+											height="<?= /* @escapeNotVerified */
+											$_item->image->height ?>"
+											alt="<?=
+											/* @escapeNotVerified */
+											$block->stripTags($_item->caption, null, true)
+											?>"/>				
+									<?php if ($square) { ?></span><?php } ?>
+									<span class="inner">
+										<span class="action likes"><span><?= $_item->likes ?></span></span>
+										<span class="action view"></span>
+									</span>
+								</a>
+							</div>
+                        <?php endforeach; ?>
+					</div>
+				</div>
+            <?php endif; ?>
+		</div>
+	</div>
+<?php endif; ?>

@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+ /**
+ * @category  Mageants Part Finder
+ * @package   Mageants_PartFinder
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/App/etc/routes.xsd">
+    <router id="standard">
+        <route id="partfinder" frontName="partfinder">
+            <module name="Mageants_PartFinder" />
+        </route>
+    </router>
+</config>

@@ -1,0 +1,152 @@
+<?php
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $cart = $objectManager->create('Magento\Checkout\Model\Cart');
+    $cartData = $cart->getQuote()->getAllVisibleItems();
+
+    $cartDataCount = count( $cartData );
+
+    $mediaUrl = $objectManager->get('Magento\Store\Model\StoreManagerInterface')
+                        ->getStore()
+                        ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+    $baseUrl = $objectManager->get('Magento\Store\Model\StoreManagerInterface')
+                        ->getStore()
+                        ->getBaseUrl();
+
+    $subTotal = $cart->getQuote()->getSubtotal();
+    $grandTotal = $cart->getQuote()->getGrandTotal();
+    $totalQuantity = $cart->getQuote()->getItemsQty();
+
+
+    $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface'); 
+    $currencyCode = $storeManager->getStore()->getCurrentCurrencyCode(); 
+    $currency = $objectManager->create('Magento\Directory\Model\CurrencyFactory')->create()->load($currencyCode); 
+    $currencySymbol = $currency->getCurrencySymbol();
+?>
+<div class="block block-compare" id="bagDrop">
+    <!--<h4><a href="<?php echo $block->getShoppingCartUrl(); ?>">My Cart</a></h4>-->
+    <div class="block-title">
+        <strong role="heading" aria-level="2">My Cart</strong>
+    </div>
+    <?php if( $cartDataCount > 0 ): ?>
+    <div class="summary">
+        <p class="amount">There is <a href="https://cateringspares.com.au/index.php/checkout/cart/"><?php echo (int) $totalQuantity; ?> item</a> in your cart.</p>
+            <p class="subtotal">
+                <span class="label">Cart Subtotal:</span> <span class="price"><?php echo $currencySymbol.number_format($subTotal,2); ?></span>
+            </p>
+    </div>
+    <p class="block-subtitle">Recently added item(s)</p>
+    <?php endif; ?>
+    <?php if( $cartDataCount > 1 ): ?>
+        <a href="#" class="arr up off" id="bagDropScrollUp"></a>
+    <?php endif; ?>
+    <div class="bagDropWindow">
+    <?php if( $cartDataCount > 0 ): ?>
+        <!--<div class="bagDropList" id="bagDropList">
+            <?php foreach( $cartData as $item ): ?>
+                <?php $product = $item->getProduct(); ?>
+                <?php $image = $product['small_image'] == '' ? $baseUrl.'pub/static/frontend/Clear/usb2u/en_AU/images/default-category-image_1.png' : $mediaUrl.'catalog/product' . $product['small_image']; ?>
+                <a href="<?php echo $product['request_path']; ?>" class="bagDropListItem">
+                    <img height="75" width="75" src="<?php echo $image; ?>">
+                    <p>
+                        <span class="name"><?php echo $product['name']; ?></span>
+                        <a href="#"
+                            title="<?= $block->escapeHtmlAttr(__('Remove item')) ?>"
+                            class="action action-delete"
+                            data-post='<?= /* @noEscape */ $this->helper('Magento\Checkout\Helper\Cart')->getDeletePostJson($item) ?>'>
+                            <span>
+                                X
+                            </span>
+                        </a>
+                        <br>
+                        <span class="qty">x <?php echo $item->getQty(); ?></span>
+                        <br>
+                        <span class="qty">
+
+                            <?php 
+                                if ($product->getTypeId() == 'configurable') {
+                                      $basePrice = $product->getPriceInfo()->getPrice('regular_price');
+
+                                      $regularPrice = $basePrice->getMinRegularAmount()->getValue();
+                                      echo $currencySymbol.$regularPrice; 
+                                }
+                                else
+                                {
+                                    $regularPrice = $product->getPriceInfo()->getPrice('regular_price')->getValue();
+                                    echo $currencySymbol.$regularPrice; 
+                                }
+                                
+                            ?>
+                                
+                            </span>
+                    </p>
+                </a>
+            <?php endforeach; ?>
+        </div>-->
+
+        <ol id="cart-sidebar" class="mini-products-list">
+            <?php $i=1; foreach( $cartData as $item ): ?>
+                <?php $product = $item->getProduct(); ?>
+                
+                <?php $image = $product['small_image'] == 'no_selection' ? $this->getViewFileUrl('Magento_Catalog/images/product/placeholder/image.jpg') : $mediaUrl.'catalog/product' . $product['small_image']; ?>
+
+                    <li class="item">
+                        <a href="<?php echo $product['request_path']; ?>" title="<?php echo $product['name']; ?>" class="product-image">
+                            <img height="75" width="75" src="<?php echo $image; ?>" alt="<?php echo $product['name']; ?> ">
+                        </a>
+                        <div class="product-details">
+                            <a href="#"
+                                title="<?= $block->escapeHtmlAttr(__('Remove item')) ?>"
+                                class="action action-delete"
+                                data-post='<?= /* @noEscape */ $this->helper('Magento\Checkout\Helper\Cart')->getDeletePostJson($item) ?>'>
+                                <span>
+                                    X
+                                </span>
+                            </a>
+                            <p class="product-name"><a href="<?php echo $product['request_path']; ?>"><?php echo $product['name']; ?> </a></p>
+                            <?php
+                                $configureUrl = $this->getUrl(
+                                                        'checkout/cart/configure',
+                                                        [
+                                                            'id' => $item->getId(),
+                                                            'product_id' => $item->getProduct()->getId()
+                                                        ]
+                                                    );
+                            ?>
+                            <a href="<?php echo $configureUrl; ?>" title="Edit item" class="btn-edit">Edit item</a>
+                            <strong><?php echo $item->getQty(); ?></strong> x<span class="price">
+                                <?php 
+                                    /*if ($product->getTypeId() == 'configurable') {
+                                          $basePrice = $product->getPriceInfo()->getPrice('regular_price');
+
+                                          $regularPrice = $basePrice->getMinRegularAmount()->getValue();
+                                          echo $currencySymbol.$regularPrice; 
+                                    }
+                                    else
+                                    {
+                                        $regularPrice = $product->getPriceInfo()->getPrice('regular_price')->getValue();
+                                        echo $currencySymbol.$regularPrice; 
+                                    }*/
+                                    echo $currencySymbol.number_format($item->getPrice(),2);
+                                    
+                                ?>
+                            </span>
+                        </div>
+                    </li>
+                    <?php if($i== 4){ break; } ?>
+            <?php  $i++; endforeach; ?>
+        </ol>
+        <div class="actions">
+            <a href="<?php echo $this->getUrl('checkout'); ?>" title="Checkout" class="button"><span><span>Checkout</span></span></a>
+        </div>
+
+    <?php else: ?>
+        <div class="emptyList">No products in your basket.</div>
+    <?php endif; ?>
+    </div>
+    <?php if( $cartDataCount > 1 ): ?>
+        <a href="#" class="arr dn" id="bagDropScrollDown"></a>
+    <?php endif; ?>
+</div>
+
+

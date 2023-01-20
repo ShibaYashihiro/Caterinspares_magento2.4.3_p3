@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Shop by Manufacturer</title>
+        <!--<css src="Magenest_CustomCss::css/css-module.css"/>-->
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Customization\Manufacturer\Block\Manufacturer" name="customization_manufacturer" template="manufacturer.phtml"></block>
+        </referenceContainer>
+    </body>
+</page>
+

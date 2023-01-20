@@ -1,0 +1,92 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+$theme_helper	 = $this->helper( 'Olegnax\Athlete2\Helper\Helper' );
+$at_settings	 = $theme_helper->getConfig( 'athlete2_settings/footer' );
+$copyrightLayout = $at_settings[ 'copyright_layout' ];
+$showCopyright	 = $at_settings[ 'show_copyright' ];
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+$mediaUrl =$storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+$baseUrl = $storeManager->getStore()->getBaseUrl();
+
+$copyrightText	 = $theme_helper->getBlockTemplateProcessor( $at_settings[ 'copyright_text' ] );
+if ( $at_settings[ 'copyright_content_type' ] == 'textfield' ) {
+	$customContent = $block->getBlockTemplateProcessor( $at_settings[ 'copyright_content_custom' ] );
+} elseif ($at_settings[ 'copyright_content_type' ] == 'custom_block'){
+	$customContent = $block->getLayout()->createBlock( 'Magento\Cms\Block\Block' )->setBlockId( $at_settings[ 'copyright_content_static' ] )->toHtml();
+} else {
+	$customContent	 = $block->getLayout()->createBlock( 'Magento\Cms\Block\Block' )->setBlockId( 'athlete2-copyright-additional' )->toHtml();
+}
+if ( $showCopyright ) {
+	if ( $copyrightLayout === '2' ) {
+		?>
+		<div class="copyright-footer copyright-layout-2" style="padding:0px;">
+			<div class="container">
+				<div class="row">
+					<?php if ( !empty( $customContent ) ) { ?>
+                        <div class="footerforcopyright">
+                             <div class="clear"></div>
+                             
+                            <?= /* @noEscape */ $customContent; ?>
+                            
+                             <div class="footer-info-left">
+                                     <a class="logo-footer" href="<?php echo $baseUrl; ?>" title="CATERING SPARES" aria-label="store logo">
+                                     <img src="<?php echo $mediaUrl.'logo/footer/logo_footer.png'; ?>" title="CATERING SPARES" alt="CATERING SPARES"></a>
+                                     <address><?= /* @noEscape */ $copyrightText /* $block->getCopyright() */ ?></address>
+                              </div>
+                             
+                             
+                             
+                             
+                             
+							<!--<div class="copyright footerlogo">
+								<a class="logo" href="<?php echo $baseUrl; ?>" title="CATERING SPARES" aria-label="store logo">
+									<img src="<?php echo $mediaUrl.'logo/footer/logo_footer.png'; ?>" title="CATERING SPARES" alt="CATERING SPARES">
+								</a>
+								
+							</div>
+							<div class="footertext"><?= /* @noEscape */ $copyrightText /* $block->getCopyright() */ ?></div>-->
+						
+                         <div class="footer-info" style="margin:0px 40px;">
+                                <div class="footer-info-2">Sydney office: 12/54 Beach St<br> Kogarah NSW 2217</div>
+                         </div>
+						     
+							<!--<div class="footer-info-2" style="color:#fff;">Sydney office: 
+							   12/54 Beach St<br>
+							 Kogarah NSW 2217
+							</div>-->
+						<div class="clear"></div>
+                        
+						     
+							
+						
+                        </div>
+						
+					<?php } ?>
+					
+				</div>
+			</div>
+		</div>
+		<?php
+	} else {
+		?>
+		<div class="copyright-footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 col-md-6">
+						<small class="copyright">
+							<span><?= /* @noEscape */ $copyrightText /* $block->getCopyright() */ ?></span>
+						</small>
+					</div>
+					<div class="col-12 col-md-6 copyright-right">
+						<?= /* @noEscape */ $customContent; ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	<?php } ?>
+<?php } ?>

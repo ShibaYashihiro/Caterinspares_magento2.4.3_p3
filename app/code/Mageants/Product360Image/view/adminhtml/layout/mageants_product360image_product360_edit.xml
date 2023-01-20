@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category Mageants Product360Image
+ * @package Mageants_Product360Image
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants Team <support@Mageants.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Mageants\Product360Image\Block\Adminhtml\Product360\Edit" name="mageants_product360image_product360_edit"/> 
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Mageants\Product360Image\Block\Adminhtml\Product360\Edit\Tabs" name="mageants_product360image_product360_tabs">
+                <block class="Mageants\Product360Image\Block\Adminhtml\Product360\Edit\Tab\Setting" name="mageants_product360image_product360_edit_tab_setting"/>
+                <block class="Mageants\Product360Image\Block\Adminhtml\Product360\Edit\Tab\Images" name="mageants_product360image_product360_edit_tab_images" template="Mageants_Product360Image::product360/edit/images.phtml"/> 
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">setting</argument>
+                    <argument name="block" xsi:type="string">mageants_product360image_product360_edit_tab_setting</argument>
+                </action>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">360images</argument>
+                    <argument name="block" xsi:type="string">mageants_product360image_product360_edit_tab_images</argument>
+                </action>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">associated_360preview</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">360 Preview</item>
+                        <item name="title" xsi:type="string">360 Preview</item>
+                        <item name="url" xsi:type="helper" helper="Mageants\Product360Image\Helper\Data::getProduct360PreviewTabUrl"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>
+            </block>
+        </referenceContainer> 
+    </body>
+</page>

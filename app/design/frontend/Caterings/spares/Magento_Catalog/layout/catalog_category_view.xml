@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright В© Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <move element="breadcrumbs" destination="main.content" before="-"/>
+
+
+		<referenceContainer name="category.view.container">
+			<container name="category.view.container.inner" htmlTag="div" htmlClass="category-view-wrapper" before="-">
+				<container name="category.view.container.titledesc" htmlTag="div" htmlClass="category-title-description" before="-">
+	                
+	            </container>
+	        </container>
+        </referenceContainer>
+		
+       	<move element="page.main.title" destination="category.view.container.titledesc" before="-"/>
+        <move element="category.description" destination="category.view.container.titledesc" after="page.main.title" />
+        <move element="category.image" destination="category.view.container.inner" after="-" />
+
+        <referenceContainer name="before.body.end">
+                <block class="Magento\Framework\View\Element\Template" name="sticky-sidebar.js" as="sticky-sidebar.js" template="Magento_Catalog::product/sticky-sidebar.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="sidebar.additional">
+            
+            <block class="Magento\Catalog\Block\Widget\RecentlyViewed" name="sidebar.recently_viewed" template="Magento_Catalog::product/widget/viewed/grid.phtml" after="-">
+                <arguments>
+                    <argument name="uiComponent" xsi:type="string">widget_recently_viewed</argument>
+                    <argument name="page_size" xsi:type="number">4</argument>
+                    <argument name="show_attributes" xsi:type="string">name,image</argument>
+                </arguments>
+            </block>
+
+            <!--<block class="Customization\Customer\Block\Product\Recentproducts" name="sidebar.recently_viewed" template="Magento_Catalog::sidebar_recently_view_products.phtml" after="-"/>-->
+
+            <block class="Magento\Framework\View\Element\Template" name="cart.sidebar" template="Magento_Catalog::sidebar_cart.phtml" after="-"/>
+        </referenceContainer>
+
+        <!--<referenceBlock  name="page.main.title" remove="true" />-->
+        <!--<referenceBlock  name="breadcrumbs" remove="true" />-->
+    </body>
+</page>

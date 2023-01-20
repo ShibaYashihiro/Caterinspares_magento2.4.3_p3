@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category Mageants Product360Image
+ * @package Mageants_Product360Image
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants Team <support@Mageants.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\ImportExport\Controller\Adminhtml\Import\Download" type="Mageants\Product360Image\Controller\Adminhtml\Import\Download"/>
+	<!-- Product360 Settigns XML-->
+    <virtualType name="MageantsProduct360ImageGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>	
+    <virtualType name="MageantsProduct360ImageGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Mageants\Product360Image\Model\ResourceModel\Product360\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">MageantsProduct360ImageGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+	<type name="Mageants\Product360Image\Model\ResourceModel\Product360\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mageants_product360image</argument>
+            <argument name="eventPrefix" xsi:type="string">mageants_product360image_product360_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">product360_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Mageants\Product360Image\Model\ResourceModel\Product360</argument>
+        </arguments>
+    </type>
+	 <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mageants_product360image_product360_listing_data_source" xsi:type="string">Mageants\Product360Image\Model\ResourceModel\Product360\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+ /**
+ * @category Mageants Product360Image
+ * @package Mageants_Product360Image
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants Team <support@Mageants.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Magento/Store/etc/config.xsd">
+    <default>
+        <mageants_product360image>
+            <general>
+                <enable>1</enable> 
+			</general>			
+        </mageants_product360image>
+    </default>
+</config>

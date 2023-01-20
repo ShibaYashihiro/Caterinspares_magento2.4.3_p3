@@ -1,0 +1,49 @@
+<?php  
+    $_gridrecords = $block->getCollection();
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+?>
+<?php if ($_gridrecords && count($_gridrecords)): ?>
+
+    <div class="pager">
+        <p class="amount"> <strong><?php echo count($_gridrecords); ?> Item(s)</strong></p>
+    </div>
+    <div id="sitemap_top_links">
+        <ul class="links">
+              <li class="first last"><a href="<?php echo $this->getUrl(); ?>sitemap" title="Categories Sitemap">Categories Sitemap</a></li>
+        </ul>
+    </div>
+    
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); // for display pager block which we create in block file.   ?></div>
+    <?php endif ?>
+    <div id="mageplaza-seo-html-sitemap">
+        <div class="row">
+            <h2>Products</h2>
+            <ul class="mp-sitemap-listing">
+                <?php  // read collection as magento1.x and display in list 
+                       foreach ($_gridrecords as $_gridrecord): ?>
+                        <?php 
+                            $product = $objectManager->create('Magento\Catalog\Model\Product')->load($_gridrecord->getId());
+                        ?>
+                    <li>
+                        <a href="<?php echo $product->getProductUrl(); ?>"><?php echo $product->getName(); ?></a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        
+        </div>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); // for display pager block which we create in block file.   ?></div>
+    <?php endif ?>
+    <div class="pager">
+        <p class="amount"> <strong>1 Item(s)</strong></p>
+    </div>
+    <div id="sitemap_top_links">
+        <ul class="links">
+              <li class="first last"><a href="<?php echo $this->getUrl(); ?>sitemap" title="Categories Sitemap">Categories Sitemap</a></li>
+        </ul>
+    </div>
+<?php else: ?>
+    <div class="message info empty"><span><?php echo __('grid records not available.'); ?></span></div>
+<?php endif ?>

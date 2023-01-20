@@ -1,0 +1,180 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Wishlist\Block\Customer\Wishlist $block */
+?>
+<div id="wishlist-view-form">
+    <div class="fieldset">
+
+        <table class="clean-table linearize-table" id="wishlist-table">
+            <thead>
+                <tr class="first last">
+                    <th class="customer-wishlist-item-image"></th>
+                    <th class="customer-wishlist-item-info"></th>
+                    <th class="customer-wishlist-item-quantity">Qty</th>
+                    <th class="customer-wishlist-item-price">Price</th>
+                    <th class="customer-wishlist-item-cart"></th>
+                    <th class="customer-wishlist-item-remove"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="wishlist-cell0 customer-wishlist-item-image">
+                        <a class="product-image" href="#" title="BOILER GLASSWASHER">
+                            <img src="https://cateringspares.com.au/media/catalog/product/cache/1/small_image/113x113/9df78eab33525d08d6e5fb8d27136e95/1/0/104056_cs.jpg" width="113" height="113" alt="BOILER GLASSWASHER">
+                        </a>
+                    </td>
+                    <td class="wishlist-cell1 customer-wishlist-item-info">
+                        <h3 class="product-name">
+    <a href="#" title="BOILER GLASSWASHER">BOILER GLASSWASHER</a>
+</h3>
+
+                        <div class="wishlist-sku">
+                            <span>SKU </span>
+                        </div>
+                        <textarea name="description[82]" rows="3" cols="5" title="Comment" placeholder="Please, enter your comments..."></textarea>
+
+                        <div class="item-manage">
+
+                            <button type="submit" name="do" title="Update Wishlist" class="button btn-update button-secondary"><span><span>Update Wishlist</span></span>
+                            </button>
+                        </div>
+                    </td>
+                    <td class="wishlist-cell2 customer-wishlist-item-quantity" data-rwd-label="Qty">
+                        <div class="cart-cell">
+                            <div class="add-to-cart-alt">
+                                <input type="text" pattern="\d*(\.\d+)?" class="input-text qty validate-not-negative-number" name="qty[82]" value="1">
+                            </div>
+                        </div>
+                    </td>
+                    <td class="wishlist-cell3 customer-wishlist-item-price" data-rwd-label="Price">
+                        <div class="cart-cell">
+
+                            <div class="price-box">
+                                <span class="regular-price" id="">
+                                            <span class="price">$545.23</span> </span>
+
+                            </div>
+
+                        </div>
+                    </td>
+                    <td class="wishlist-cell4 customer-wishlist-item-cart">
+                        <div class="cart-cell">
+                            <button type="button" title="Add to Cart" onclick="addWItemToCart(82);" class="button btn-cart"><span><span>Add to Cart</span></span>
+                            </button>
+                        </div>
+                        <p><a class="link-edit button button-secondary" href="#">Edit</a></p>
+
+                    </td>
+                    <td class="wishlist-cell5 customer-wishlist-item-remove last"><a href="#" onclick="return confirmRemoveWishlistItem();" title="Remove Item" class="btn-remove btn-remove2">Remove item</a>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="wishlist-cell0 customer-wishlist-item-image">
+                        <a class="product-image" href="#" title="BOILER GLASSWASHER">
+                            <img src="https://cateringspares.com.au/media/catalog/product/cache/1/small_image/113x113/9df78eab33525d08d6e5fb8d27136e95/1/0/104056_cs.jpg" width="113" height="113" alt="BOILER GLASSWASHER">
+                        </a>
+                    </td>
+                    <td class="wishlist-cell1 customer-wishlist-item-info">
+                        <h3 class="product-name">
+    <a href="#" title="BOILER GLASSWASHER">BOILER GLASSWASHER</a>
+</h3>
+
+                        <div class="wishlist-sku">
+                            <span>SKU </span>
+                        </div>
+                        <textarea name="description[82]" rows="3" cols="5" title="Comment" placeholder="Please, enter your comments..."></textarea>
+
+                        <div class="item-manage">
+
+                            <button type="submit" name="do" title="Update Wishlist" class="button btn-update button-secondary"><span><span>Update Wishlist</span></span>
+                            </button>
+                        </div>
+                    </td>
+                    <td class="wishlist-cell2 customer-wishlist-item-quantity" data-rwd-label="Qty">
+                        <div class="cart-cell">
+                            <div class="add-to-cart-alt">
+                                <input type="text" pattern="\d*(\.\d+)?" class="input-text qty validate-not-negative-number" name="qty[82]" value="1">
+                            </div>
+                        </div>
+                    </td>
+                    <td class="wishlist-cell3 customer-wishlist-item-price" data-rwd-label="Price">
+                        <div class="cart-cell">
+
+                            <div class="price-box">
+                                <span class="regular-price" id="">
+                                            <span class="price">$545.23</span> </span>
+
+                            </div>
+
+                        </div>
+                    </td>
+                    <td class="wishlist-cell4 customer-wishlist-item-cart">
+                        <div class="cart-cell">
+                            <button type="button" title="Add to Cart" onclick="addWItemToCart(82);" class="button btn-cart"><span><span>Add to Cart</span></span>
+                            </button>
+                        </div>
+                        <p><a class="link-edit button button-secondary" href="#">Edit</a></p>
+
+                    </td>
+                    <td class="wishlist-cell5 customer-wishlist-item-remove last"><a href="#" onclick="return confirmRemoveWishlistItem();" title="Remove Item" class="btn-remove btn-remove2">Remove item</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+
+<?php if ($this->helper(\Magento\Wishlist\Helper\Data::class)->isAllow()) : ?>
+    <div class="toolbar wishlist-toolbar"><?= $block->getChildHtml('wishlist_item_pager'); ?></div>
+    <?= ($block->getChildHtml('wishlist.rss.link')) ?>
+    <form class="form-wishlist-items" id="wishlist-view-form"
+          data-mage-init='{"wishlist":{
+          "addToCartUrl":<?= /* @noEscape */ $block->getItemAddToCartParams("%item%") ?>,
+          "addAllToCartUrl":<?= /* @noEscape */ $block->getAddAllToCartParams() ?>,
+          "commentString":""},
+          "validation": {}}' action="<?= $block->escapeUrl($block->getUrl('wishlist/index/update', ['wishlist_id' => $block->getWishlistInstance()->getId()])) ?>" method="post">
+        <?= $block->getChildHtml('top') ?>
+        <?php if ($block->hasWishlistItems()) : ?>
+            <?= $block->getBlockHtml('formkey') ?>
+            <?php $block->getChildBlock('items')->setItems($block->getWishlistItems()); ?>
+            <?= $block->getChildHtml('items') ?>
+        <?php else : ?>
+            <div class="message info empty"><span><?= $block->escapeHtml(__('You have no items in your wish list.')) ?></span></div>
+        <?php endif ?>
+        <?= $block->getChildHtml('bottom') ?>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <?= $block->getChildHtml('control_buttons') ?>
+            </div>
+            <div class="secondary">
+                <a href="<?= $block->escapeUrl($block->getBackUrl()) ?>" class="action back">
+                    <span><?= $block->escapeHtml(__('Back')) ?></span>
+                </a>
+            </div>
+        </div>
+    </form>
+    <script id="form-tmpl" type="text/x-magento-template">
+      <form id="wishlist-hidden-form" method="post" action="<%- data.url %>" class="no-display">
+          <% if (data.qty) { %>
+          <input name="qty" value="<%- data.qty %>">
+          <% } %>
+          
+          <% if (data.item) { %>
+          <input name="item" value="<%- data.item %>">
+          <% } %>
+          
+          <% if (data.entity) { %>
+          <input name="entity" value="<%- data.entity %>">
+          <% } %>
+      </form>
+    </script>
+    <div class="toolbar wishlist-toolbar"><br><?= $block->getChildHtml('wishlist_item_pager'); ?></div>
+<?php endif ?>

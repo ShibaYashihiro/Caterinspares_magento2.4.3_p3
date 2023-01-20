@@ -1,0 +1,215 @@
+<?php 
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+    $mediaUrl =$storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+    $baseUrl = $storeManager->getStore()->getBaseUrl();
+?>
+
+<?php
+    $helper = $this->helper('MGS\Blog\Helper\Data');
+    $collection = $block->getCollection();
+    $showImage = $this->getConfig('general_settings/show_image');
+    $showAction = $this->getConfig('general_settings/show_action');
+?>
+
+<div class="widget widget-static-block">
+    <div class="banner-container-1">
+        <div class="banner-block-1">
+            <div class="banner-wrapper">
+                <div class="banner-img-box"><img src="<?php echo $mediaUrl; ?>home_banner/banner-1_img-1.jpg" alt="banner image"></div>
+                <div class="banner-text-block">
+                    <h3 class="banner-title">Washing <br></h3>
+                    <p class="banner-lnk">Shop now!</p>
+                </div>
+                <a href="<?php echo $baseUrl; ?>washing.html" class="banner-abs-lnk"></a>
+            </div>
+        </div>
+        <div class="banner-block-2">
+            <div class="banner-wrapper">
+                <div class="banner-img-box"><img src="<?php echo $mediaUrl; ?>home_banner/banner-1_img-2.jpg" alt="banner image"></div>
+                <div class="banner-text-block">
+                    <h3 class="banner-title">COOKING<br></h3>
+                    <p class="banner-lnk">Shop now!</p>
+                </div>
+                <a class="banner-abs-lnk" href="<?php echo $baseUrl; ?>cooking.html"></a>
+            </div>
+        </div>
+        <div class="banner-block-3">
+            <div class="banner-wrapper">
+                <div class="banner-img-box"><img src="<?php echo $mediaUrl; ?>home_banner/banner-1_img-3.jpg" alt="banner image"></div>
+                <div class="banner-text-block">
+                    <h3 class="banner-title">Combi Ovens<br></h3>
+                    &nbsp; &nbsp; &nbsp;
+                    <p class="banner-lnk"> Shop now!</p>
+                </div>
+                <a class="banner-abs-lnk" href="<?php echo $baseUrl; ?>combi-ovens.html" class="banner-button"></a>
+            </div>
+        </div>
+        <div class="banner-block-4">
+            <div class="banner-wrapper">
+                <div class="banner-img-box"><img src="<?php echo $mediaUrl; ?>home_banner/banner-1_img-4.jpg" alt="banner image"></div>
+                <div class="banner-text-block">
+                    <h3 class="banner-title">Pre-Rinse Units<br></h3>
+                    <p class="banner-lnk">Shop now!</p>
+                </div>
+                <a class="banner-abs-lnk" href="<?php echo $baseUrl; ?>/pre-rinse-units-and-tapware.html" class="banner-button"></a>
+            </div>
+        </div>
+        <?php if (!count($collection)): ?>
+            <div class="message info empty">
+                <div><?php echo __('Have no posts.') ?></div>
+            </div>
+        <?php else: ?>
+            <div id="owl-demo" class="owl-carousel blockhome_cont">
+                <?php foreach ($collection as $post): ?>
+                    <div class="widget-latest-item" style="border-right: 1px solid #fff;">
+                        <div class="postWidget">
+                            <?php 
+                                if($post->getThumbType() == "video"){
+                                    if(!empty($post->getVideoThumbId())){
+                                    if($post->getVideoBigType() == "youtube"){
+                                        $domain = explode('/', $post->getVideoThumbId());
+                                        if($domain[2] == 'www.youtube.com')
+                                        {
+                                            $id = explode('=', $domain[3])[1]; 
+                                            $video_url = 'https://www.youtube.com/embed/'.$id;
+                                        }
+                                        else if($domain[2] == 'vimeo.com')
+                                        {
+                                            $video_url = 'https://player.vimeo.com/video/'.$domain[3];
+                                        }
+                            ?>
+                                        <!--<div class="video-responsive">
+                                            <iframe class="img-responsive" src="<?php echo $video_url; ?>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                        </div>-->
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+                                        </div>
+                            <?php   }
+                                }
+                                else
+                                    {?>
+                                        <div class="postImage"><img src="<?php echo $mediaUrl; ?>mgs_blog/default/default.jpg" alt="" /></div>
+                                    <?php }
+                                } 
+                                else
+                                {
+
+                            ?>
+                                    <?php if(!empty($post->getImage())){ ?>
+                                        <div class="postImage"><img src="<?php echo $mediaUrl.$post->getImage(); ?>" alt="" /></div>
+                                    <?php } else { ?>
+                                        <div class="postImage"><img src="<?php echo $mediaUrl; ?>mgs_blog/default/default.jpg" alt="" /></div>
+                                    <?php } ?>
+                                <?php } ?>
+                            <div class="widget-latest-info">
+                                <div class="widget-latest-details">
+                                    <span class="postDetails-user"><?php echo $post->getUser();?></span>
+                                    <span class="widget-latest-data">
+                                        <?php 
+                                            $date=date_create($post->getUpdatedAt());
+                                            echo date_format($date,"d.m.Y"); 
+                                        ?>
+                                            
+                                    </span>
+                                </div>
+                                <div class="widget-latest-title"><a href="<?php echo $baseUrl.'blog/'.$post->getUrlKey(); ?>"><?php echo $post->getTitle(); ?></a></div>
+                                <div class="postContent ">
+                                    <p><span style="font-family: arial, helvetica, sans-serif; font-size: large;white-space: nowrap;"><strong style="overflow: hidden;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;"><?php echo $post->getShortContent(); ?></strong></span></p>
+                                </div>
+
+                                <a href="<?php echo $baseUrl.'blog/'.$post->getUrlKey(); ?>" class="aw-blog-read-more all-blog" title="Read more ">
+                                </a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
+        <!--<div class="widget widget-static-block"></div>
+        <div class="blog-bg">
+            <div class="widget-latest">
+                <div class="widget-latest-item">
+                    <div class="postWidget">
+                        <div class="postImage"><img src="https://cateringspares.com.au/media/wysiwyg/Front_Page_Van_2.jpg" alt="" /></div>
+                        <div class="widget-latest-info">
+                            <div class="widget-latest-details">
+                                <span class="postDetails-user">
+                                        admin                                    </span>
+                                <span class="widget-latest-data">
+                                        25.04.2018                                    </span>
+                            </div>
+                            <div class="widget-latest-title"><a href="https://cateringspares.com.au/index.php/blog/post-3/">Tradies</a></div>
+                            <div class="postContent">
+                                <p><span style="font-family: arial, helvetica, sans-serif; font-size: large;"><strong>Trade discount for service companies</strong></span></p>
+                            </div>
+                            <a href="https://cateringspares.com.au/index.php/blog/post-3/" class="aw-blog-read-more all-blog" title="Read more ">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-latest-item">
+                    <div class="postWidget">
+                        <div class="postImage"><img src="https://cateringspares.com.au/media/wysiwyg/Front_Page_Logos_4x_Smaller.jpg" alt="" /></div>
+                        <div class="widget-latest-info">
+                            <div class="widget-latest-details">
+                                <span class="postDetails-user">
+                                        admin                                    </span>
+                                <span class="widget-latest-data">
+                                        24.04.2018                                    </span>
+                            </div>
+                            <div class="widget-latest-title"><a href="https://cateringspares.com.au/index.php/blog/post-2/">Total Transparency</a></div>
+                            <div class="postContent">
+                                <p><span style="font-family: arial, helvetica, sans-serif; font-size: large;"><strong>Catering Spares has full intention of being transparent and correct by giving you oportunity to select parts in full awarnes.</strong></span></p>
+                            </div>
+                            <a href="https://cateringspares.com.au/index.php/blog/post-2/" class="aw-blog-read-more all-blog" title="Read more ">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <div class="snippingindex_cont widget widget-static-block">
+            <div class="container">
+                <ul class="list-2">
+                    <li><span class="icons-list-2 fa fa-truck"></span>
+                        <h4 class="title-list-2 collapse" colapse_id="1">Shipping &amp; Delivery</h4>
+                        <div class="desc-list-2" id="collapse_1">Here you can read some details about a nifty little lifecycle of your order's journey from the time you place your order to your new treasures arriving at your doorstep. Product packaging, printing labels, information about tracking your orders can be found in this section.</div>
+                    </li>
+                    <li><span class="icons-list-2 fa fa-credit-card"></span>
+                        <h4 class="title-list-2 collapse" colapse_id="2">Payment Methods</h4>
+                        <div class="desc-list-2" id="collapse_2">It is equally important to choose the solution which offers a specific selection of credit cards that are most popular in the merchants target markets. We take Visa and MasterCard (no surcharge) and Amex (surcharge) as they are widely used by cyber customers.</div>
+                    </li>
+                    <li><span class="icons-list-2 fa fa-envelope-o"></span>
+                        <h4 class="title-list-2 collapse" colapse_id="3">Contact us</h4>
+                        <div class="desc-list-2" id="collapse_3">You can contact us any way that is convenient for you. We are available Monday to Friday, 8:00 AM to 5:00 PM via email or telephone. You can also use a quick contact form or visit our office personally.<br><a class="button" href="<?php $this->getUrl(); ?>/contact" title="contact with us"><span><span>contact with us</span></span></a></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<!--<div class="block-embed-googlemap" style="height:400px">
+    <div class="block-content">
+        <div id="map_canvas_embed" style="width:100%; height:400px"></div>
+    </div>
+</div>
+<div class="block-embed-googlemap" style="display:none;width:49%;float:right;height:400px">
+    <div class="block-content">
+        <div id="map_canvas_embed2" style="width:100%; height:400px"></div>
+    </div>
+</div>
+<div style="clear:both;"></div>-->
+<div class="google-home-map">
+    <?php 
+       echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Magento_Contact::google_map.phtml")->toHtml();
+
+    ?>
+</div>
+

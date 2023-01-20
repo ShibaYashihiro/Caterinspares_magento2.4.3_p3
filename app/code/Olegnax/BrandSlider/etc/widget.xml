@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="ox_brand_slider" class="Olegnax\BrandSlider\Block\BrandSlider" is_email_compatible="true"
+                placeholder_image="Olegnax_BrandSlider::images/products_list.png" ttl="86400">
+        <label translate="true">Olegnax - Brand Slider</label>
+        <description translate="true"></description>
+        <parameters>
+            <parameter name="height" xsi:type="text" visible="true">
+                <label translate="true">Image Height</label>
+                <value>200</value>
+            </parameter>
+            <parameter name="width" xsi:type="text" visible="true">
+                <label translate="true">Image Width</label>
+                <value>200</value>
+            </parameter>
+            <parameter name="auto_scroll" xsi:type="text" visible="true">
+                <label translate="true">Autoscroll</label>
+                <description translate="true"><![CDATA[Set to 0 to disable autoscroll</br>Set to 1-10 to enable autoscroll ( scroll timeout - autoscroll * 1000ms ) ]]></description>
+            </parameter>
+            <parameter name="scroll_items" xsi:type="select" visible="true">
+                <label translate="true">Items to scroll</label>
+                <options>
+                    <option name="item" value="1" selected="true">
+                        <label translate="true">Scroll per item</label>
+                    </option>
+                    <option name="page" value="page">
+                        <label translate="true">Scroll per page</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="rewind" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Loop Carousel</label>
+                <description translate="true">Slide to first item or stop at last item</description>
+            </parameter>
+            <parameter name="cache_lifetime" xsi:type="text" visible="true">
+                <label translate="true">Cache Lifetime (Seconds)</label>
+                <description translate="true">86400 by default, if not set. To refresh instantly, clear the Blocks HTML Output cache.</description>
+            </parameter>
+        </parameters>
+    </widget>
+	
+</widgets>

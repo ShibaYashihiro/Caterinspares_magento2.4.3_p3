@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @category  Mageants Product360Image
+ * @package Mageants_Product360Image
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants Team <support@Mageants.com>
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <container name="root" label="Root">
+        <block class="Mageants\Product360Image\Block\Adminhtml\Product360\Edit\Tab\Preview" name="product360image.product360.edit.tab.preview" template="Mageants_Product360Image::product360/edit/preview.phtml"/>     
+    </container>
+</layout>

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants PartFinder
+ * @package   Mageants_PartFinders
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Mageants\PartFinder\Block\Adminhtml\PartFinders\Edit" name="mageants_partfinder_partfinders_edit"/> 
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Mageants\PartFinder\Block\Adminhtml\PartFinders\Edit\Tabs" name="mageants_partfinder_partfinders_tabs">
+                <block class="Mageants\PartFinder\Block\Adminhtml\PartFinders\Edit\Tab\PartFinders" name="mageants_partfinder_partfinders_edit_tab_partfinders"/>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">partfinders</argument>
+                    <argument name="block" xsi:type="string">mageants_partfinder_partfinders_edit_tab_partfinders</argument>
+                </action>
+				<block class="Mageants\PartFinder\Block\Adminhtml\PartFinders\Edit\Tab\FinderOptions" name="mageants_partfinder_partfinders_edit_tab_options"/>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">options</argument>
+                    <argument name="block" xsi:type="string">mageants_partfinder_partfinders_edit_tab_options</argument>
+                </action>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">products</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Products</item>
+                        <item name="title" xsi:type="string">Products</item>
+                        <item name="url" xsi:type="helper" helper="Mageants\PartFinder\Helper\Data::getProductsGridUrl"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>
+				<block class="Mageants\PartFinder\Block\Adminhtml\PartFinders\Edit\Tab\Imports" name="mageants_partfinder_partfinders_edit_tab_imports"/>
+				
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">import</argument>
+                    <argument name="block" xsi:type="string">mageants_partfinder_partfinders_edit_tab_imports</argument>
+                </action>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">importhistory</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Products History</item>
+                        <item name="title" xsi:type="string">Products History</item>
+                        <item name="url" xsi:type="helper" helper="Mageants\PartFinder\Helper\Data::getHistoryGridUrl"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action><!-- 
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">importhistory</argument>
+                    <argument name="block" xsi:type="string">mageants_partfinder_partfinders_edit_tab_importhistory</argument>
+                </action> -->
+				
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">universalproducts</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Universal Products</item>
+                        <item name="title" xsi:type="string">Universal Products History</item>
+                        <item name="url" xsi:type="helper" helper="Mageants\PartFinder\Helper\Data::getUnivarsalProductsUrl"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>				
+				<block class="Mageants\PartFinder\Block\Adminhtml\PartFinders\Edit\Tab\UniversalProductImports" name="mageants_partfinder_partfinders_edit_tab_universalproductimports"/>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">universalproductimports</argument>
+                    <argument name="block" xsi:type="string">mageants_partfinder_partfinders_edit_tab_universalproductimports</argument>
+                </action>
+            </block>
+        </referenceContainer> 
+    </body>
+</page>

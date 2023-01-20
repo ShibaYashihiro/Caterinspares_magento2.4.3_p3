@@ -1,0 +1,110 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart $block */
+
+/** @var \Magento\Wishlist\Model\Item $item */
+$item = $block->getItem();
+$product = $item->getProduct();
+/** @var \Magento\Wishlist\ViewModel\AllowedQuantity $viewModel */
+$viewModel = $block->getData('allowedQuantityViewModel');
+$allowedQty = $viewModel->setItem($item)->getMinMaxQty();
+
+
+ /*--------------------Edit Block call-----------------------*/ 
+  $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+
+  $edit_block = $objectManager->get('\Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Edit');
+  
+  $edit_item = $edit_block->getItem();
+
+  /*--------------------remove Item Block call-----------------------*/ 
+  $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+
+  $remove_item_block = $objectManager->get('\Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Remove');
+  
+
+
+
+ 
+?>
+<?php foreach ($block->getChildNames() as $childName) : ?>
+    <?= /* @noEscape */ $block->getLayout()->renderElement($childName, false) ?>
+<?php endforeach;?>
+</td>
+
+
+<td class="wishlist-cell2 customer-wishlist-item-quantity" data-rwd-label="Qty">
+    <?php if ($item->canHaveQty() && $product->isVisibleInSiteVisibility()) : ?>
+        <div class="field qty">
+            <label class="label" for="qty[<?= $block->escapeHtmlAttr($item->getId()) ?>]"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+            <div class="control">
+                <input type="number" data-role="qty" id="qty[<?= $block->escapeHtmlAttr($item->getId()) ?>]" class="input-text qty" data-validate="{'required-number':true,'validate-greater-than-zero':true, 'validate-item-quantity':{'minAllowed':<?= /* @noEscape */ $allowedQty['minAllowed'] ?>,'maxAllowed':<?= /* @noEscape */ $allowedQty['maxAllowed'] ?>}}"
+               name="qty[<?= $block->escapeHtmlAttr($item->getId()) ?>]" value="<?= /* @noEscape */ $block->getAddToCartQty($item) * 1 ?>" <?= $product->isSaleable() ? '' : 'disabled="disabled"' ?>>
+            </div>
+        </div>
+    <?php endif; ?>
+    </td>
+    <td>
+    <div class="cart-cell">
+<?php
+     
+/*--------------------Price Html Call-----------------------*/ 
+
+    $priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data'); 
+
+    echo $priceHelper->currency($product->getPriceInfo()->getPrice('regular_price')->getValue(), true, false); ?>
+          
+
+    </div>
+    </td>
+    <td class="wishlist-cell4 customer-wishlist-item-cart">
+                      
+    <?php if ($product->isSaleable()) : ?>
+    <div class="product-item-actions">
+        <div class="actions-primary">
+      
+            <button type="button" data-role="tocart" data-post='<?= /* @noEscape */ $block->getItemAddToCartParams($item) ?>' title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>" data-item-id="<?= $block->escapeHtmlAttr($item->getId()) ?>" class="add-to-cart-alt">
+                <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+            </button>
+
+            
+
+            <a class="link-edit button button-secondary" href="<?= $edit_block->escapeUrl($edit_block->getItemConfigureUrl($item)) ?>">
+             <span><?= $edit_block->escapeHtml(__('Edit')) ?></span>
+          </a>
+
+        </div>
+    </div>
+    </td>
+    <?php else : ?>
+        <?php if ($product->getIsSalable()) : ?>
+            <p class="available stock" title="<?= $block->escapeHtmlAttr(__('Availability')) ?>">
+                <span><?= $block->escapeHtml(__('In stock')) ?></span>
+            </p>
+            <p>  <a class="link-edit button button-secondary" href="<?= $edit_block->escapeUrl($block->getItemConfigureUrl($item)) ?>">
+             <span><?= $edit_block->escapeHtml(__('Edit')) ?></span>
+          </a></p>
+        <?php else : ?>
+            <p class="unavailable stock" title="<?= $block->escapeHtmlAttr(__('Availability')) ?>">
+                <span><?= $block->escapeHtml(__('Out of stock')) ?></span>
+            </p>
+        <?php endif; ?>
+    <?php endif; ?>
+
+     
+         
+       
+           
+       
+    </td>
+    <td class="wishlist-cell5 customer-wishlist-item-remove last">
+        <a href="#" data-role="remove" data-post-remove='<?= /* @noEscape */ $remove_item_block->getItemRemoveParams($item) ?>' title="<?= $remove_item_block->escapeHtmlAttr(__('Remove Item')) ?>" class="btn-remove btn-remove2">
+         <span><?= $remove_item_block->escapeHtml(__('Remove item')) ?></span>
+       </a>
+    </td>
+
+

@@ -1,0 +1,15 @@
+<script type="text/javascript">
+    require( [ 'jquery', 'jquery/lazyload' ], function ( $ ) {
+        var lazy_load = function () {
+            $( "img.lazy:not(.lazy-loaded)" ).lazyload( {
+                load: function () {
+                    $( this ).addClass( 'lazy-loaded' );
+                }
+            } );
+        };
+        $( function () {
+            $( 'body' ).off( 'contentUpdated.oxlazy' ).on( 'contentUpdated.oxlazy', lazy_load );
+            lazy_load();
+        } );
+    } );
+</script>

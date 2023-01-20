@@ -1,0 +1,38 @@
+<!-- Fine Uploader DOM Element
+    ====================================================================== -->
+<div id="fine-uploader-gallery-universal"></div>
+
+<!-- Your code to create an instance of Fine Uploader and bind to the DOM/template
+====================================================================== -->
+<script type="text/javascript">
+require(['jquery', 'finedrop'],function() {
+	jQuery('#fine-uploader-gallery-universal').fineUploader({
+		template: 'qq-template-gallery',
+		request: {
+			endpoint: '<?php echo $block->getCsvImportUrl()?>',
+		},
+		validation: {
+			allowedExtensions: ['csv']
+		},
+		callbacks: {
+            onAllComplete:function(){
+				jQuery("#universalProductsGrid .action-reset").click();
+				 setTimeout(function(){ 
+				  	jQuery(".admin__grid-massaction-form select").removeClass("required-entry");
+				  }, 3000);
+			}
+        }
+
+	}).on('submit', function (event, id, filename) {	
+       jQuery(this).fineUploader('setParams',  {
+			form_key: '<?php echo $block->getFormKey()?>',
+			finder_id: '<?php echo $block->getFinderId()?>',
+			delete_existing_data: jQuery("#universalproductsimports_unversal_import_delete_existing").val()
+		});
+		if($("#universalproductsimports_unversal_import_delete_existing").val() == 1 )
+		{
+			if(!confirm("Are you sure to delete all old data and import new data")) return false;
+		}
+    });
+})
+</script>

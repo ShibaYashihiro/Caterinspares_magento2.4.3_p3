@@ -1,0 +1,5 @@
+<?php
+$athlete = $this->helper('Olegnax\Athlete2\Helper\Helper');
+$value = $athlete->getConfig( 'athlete2_settings/products_listing/products_layout' );
+$value = $value ?: '1';
+echo $athlete->getLayoutTemplateHtmlbyValue( $block, $value );

@@ -1,0 +1,10 @@
+"Reindex All","Reindex All"
+Reset,Reset
+"Reindex process has been started in the background.","Reindex process has been started in the background."
+"'Unknown indexer code:' .","'Unknown indexer code:' ."
+"Couldn't reset indexer %1","Couldn't reset indexer %1"
+Never,Never
+Processing,Processing
+Ready,Ready
+"Reindex required","Reindex required"
+Reindex,Reindex

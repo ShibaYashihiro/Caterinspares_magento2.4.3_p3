@@ -1,0 +1,62 @@
+<?php
+$demos = $block->getDemo();
+?>
+<div class="ox-admin__import">
+	<?php foreach ( $demos as $demoId => $demo ) : ?>
+		<div class="ox-admin-import__block" id="demo-<?= $block->getDemoId( $demoId ) ?>">
+			<img src="<?= $block->getDemoImage( $demoId ) ?>">
+			<span class="ox-admin-import__name"><?= $demo[ 'name' ] ?></span>
+			<a href="#" class="ox-admin__button action-primary ox-admin-modal__action ox-admin-import__button"><?= __( 'Import' ); ?></a>
+			<div class="ox-admin__modal">
+				<div class="ox-admin-modal__inner">
+					<div class="ox-overlay-close-btn action-primary"><span></span></div>
+					<h2><?= __( 'Choose what to Import:' ); ?></h2>
+					<table>
+						<tbody>
+							<?php if ( in_array( 'content', $demo[ 'variations' ] ) ) : ?>
+								<tr>
+									<td><h3><?= __( 'Pages and CMS Blocks' ); ?></h3><p class="attention"><?= __( 'Attention! This will override your existing Static blocks and CMS Pages with the same Identifiers.' ); ?></p></td>
+									<td><a href="<?= $block->actionImport( $demoId, 'content' ) ?>" class="ox-admin__button action-primary"><?= __( 'Import' ); ?></a></td>
+								</tr>
+							<?php endif; ?>
+							<?php if ( in_array( 'bannerslider', $demo[ 'variations' ] ) ) : ?>
+								<tr>
+									<td><h3><?= __( 'Banner Slider' ); ?></h3></td>
+									<td><a href="<?= $block->actionImport( $demoId, 'bannerslider' ) ?>" class="ox-admin__button action-primary"><?= __( 'Import' ); ?></a></td>
+								</tr>
+							<?php endif; ?>
+							<?php if ( in_array( 'settings', $demo[ 'variations' ] ) ) : ?>
+								<tr>
+									<td><h3><?= __( 'Theme Settings' ); ?></h3></td>
+									<td><a href="<?= $block->actionImport( $demoId, 'settings' ) ?>" class="ox-admin__button action-primary"><?= __( 'Import' ); ?></a></td>
+								</tr>
+							<?php endif; ?>
+							<?php if ( in_array( 'blog', $demo[ 'variations' ] ) ) : ?>
+								<tr>
+									<td><h3><?= __( 'Blog Settings' ); ?></h3><p><?= __( 'This is blog only theme settings. Use this to import blog settigns without losing other customization.' ); ?></p></td>
+									<td><a href="<?= $block->actionImport( $demoId, 'blog' ) ?>" class="ox-admin__button action-primary"><?= __( 'Import' ); ?></a></td>
+								</tr>
+							<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<?php endforeach; ?>
+</div>
+<script>
+    require( [
+        'jquery',
+    ], function ( $ ) {
+        'use strict';
+        $( 'body' ).on( 'click', '.ox-admin-import__button', function ( e ) {
+            e.preventDefault();
+            $( this ).next( '.ox-admin__modal' ).addClass( 'opened' );
+        } );
+        $( 'body' ).on( 'click', '.ox-overlay-close-btn', function ( e ) {
+            e.preventDefault();
+            $( this ).closest( '.ox-admin__modal' ).removeClass( 'opened' );
+        } );
+
+    } );
+</script>

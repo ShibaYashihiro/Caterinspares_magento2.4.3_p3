@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:helloworld:Magento_Widget:etc/widget.xsd">
+	<widget class="Mageants\PartFinder\Block\Widget\Partfinder" id="mageants_part_finder">
+		<label>Part Finder widgets</label>
+		<description>Partfinder</description>
+		<parameters>
+			<parameter name="widpartfinder" xsi:type="select" source_model="Mageants\PartFinder\Model\Source\PartfinderOption" visible="true" sort_order="50" required="true" >
+			    <label translate="true">Part Finder widgets</label>
+			</parameter>
+		</parameters>
+	</widget>
+</widgets>

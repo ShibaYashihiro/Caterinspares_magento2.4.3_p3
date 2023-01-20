@@ -1,0 +1,22 @@
+<?php
+/**
+ * Athlete2 Theme
+ * 
+ * @author      Olegnax
+ * @package     Olegnax_Athlete2
+ * @copyright   Copyright (c) 2019 Olegnax (https://olegnax.com). All rights reserved.
+ * @license     https://www.olegnax.com/license
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ */
+
+$athlete = $this->helper('Olegnax\Athlete2\Helper\Helper');
+$value = $athlete->getConfig( 'athlete2_settings/products_listing/products_layout' );
+$value = $value ?: '1';
+echo $athlete->getLayoutTemplateHtmlbyValue( $block, $value );

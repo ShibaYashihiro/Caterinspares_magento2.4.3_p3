@@ -1,0 +1,111 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    BSS_HtmlSiteMap
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+<?php
+/**
+ * SEO Toolbar template
+ *
+ * @var $block Bss\HtmlSiteMap\Block\CategoryCollection
+ */
+?>
+<?php
+$helper = $block->getHelper();
+
+//CMS and Category Link
+$categories = $block->getCategoryCollection($isActive = true, $level = false, $sortBy = false, $pageSize = false);
+$categoryHelper = $block->getCategoryHelper();
+$categoryDisable = $helper->getCategoryDisable();
+$titleCategory = $helper->titleCategory();
+$titleCms = $helper->titleCms();
+$enableCms = $helper->isEnableCms();
+$enableCategory = $helper->isEnableCategory();
+$cmsLink = $helper->getCmsLink();
+$cmsLink = ",," . $cmsLink . ",";
+$categoryDisable = ",," . $categoryDisable . ",";
+
+?>
+<style>
+body.custom_route-index-index ul.tree {margin: 0; padding: 0; list-style: none;} 
+body.custom_route-index-index ul.tree li {
+  margin-left: 15px;
+  position: relative;
+  padding-left: 5px;
+}
+body.custom_route-index-index ul.tree li::before {
+  content: " ";
+  position: absolute;
+  width: 1px;
+  background-color: #000;
+  top: 5px;
+  bottom: -12px;
+  left: -10px;
+}
+body.custom_route-index-index > ul > li:first-child::before {top: 12px;}
+
+body.custom_route-index-index ul.tree li:not(:first-child):last-child::before {display: none;}
+body.custom_route-index-index ul.tree li:only-child::before {
+  display: list-item;
+  content: " ";
+  position: absolute;
+  width: 1px;
+  background-color: #000;
+  top: 5px;
+  bottom: 7px;
+  height: 7px;
+  left: -10px;
+}
+body.custom_route-index-index ul.tree li::after {
+  content: " ";
+  position: absolute;
+  left: -10px;
+  width: 10px;
+  height: 1px;
+  background-color: #000;
+  top: 12px;
+}
+
+
+</style>
+<div class="col-bss-1">
+    <?php
+    if ($enableCategory) : ?>
+        <div class="col-bss-2">
+            <h2 class="bss_h2"><?php echo $titleCategory; ?></h2>
+            <?php foreach ($categories as $category) :
+                if (!$category->getIsActive() || (int)$category->getData('excluded_html_sitemap') === 1) {
+                    continue;
+                } ?>
+                <?php
+                $categoryString = (string)$category->getId();
+                $categoryString = "," . $categoryString . ",";
+                $categoryStringValidate = strpos($categoryDisable, $categoryString);
+                if ($categoryStringValidate == false) : ?>
+                <div class="bss_h3">
+                    <?php echo $category->getName()?>
+                </div>
+                    <?php
+                        $setAllCategories = $block->getAllCategories($category, $categoryDisable);
+                        echo $setAllCategories; ?>
+                <?php endif; ?>
+            <?php endforeach;
+            ?>
+        </div>
+        <?php
+    endif; ?>
+    
+</div>

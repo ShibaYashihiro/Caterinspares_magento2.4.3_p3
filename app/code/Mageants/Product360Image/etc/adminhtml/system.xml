@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+ /**
+ * @category Mageants Product360Image
+ * @package Mageants_Product360Image
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants Team <support@Mageants.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Config/etc/system_file.xsd">
+    <system>
+		<tab id="mageants" translate="label" sortOrder="10">
+            <label>Mageants</label>
+        </tab>
+        <section id="mageants_product360image" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Product360 Image</label>
+            <tab>mageants</tab>
+            <resource>Mageants_Product360Image::mageants_product360image</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Product360</label>
+                    <source_model>Mageants\Product360Image\Model\Source\Status</source_model>
+                </field>
+            </group>			
+        </section>
+    </system>
+</config>

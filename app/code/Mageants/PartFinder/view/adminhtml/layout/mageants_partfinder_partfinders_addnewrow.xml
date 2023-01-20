@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants PartFinder
+ * @package   Mageants_PartFinders
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Mageants\PartFinder\Block\Adminhtml\PartFinders\Edit\AddNewRow\Edit" name="mageants_partfinder_partfinders_edit"/> 
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Mageants\PartFinder\Block\Adminhtml\PartFinders\Edit\AddNewRow\Tabs" name="mageants_partfinder_partfinders_tabs">
+                <block class="Mageants\PartFinder\Block\Adminhtml\PartFinders\Edit\AddNewRow\Tab\NewProduct" name="mageants_partfinder_partfinders_edit_add_new_tab_new_product"/>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">newproduct</argument>
+                    <argument name="block" xsi:type="string">mageants_partfinder_partfinders_edit_add_new_tab_new_product</argument>
+                </action>				
+            </block>
+        </referenceContainer> 
+    </body>
+</page>

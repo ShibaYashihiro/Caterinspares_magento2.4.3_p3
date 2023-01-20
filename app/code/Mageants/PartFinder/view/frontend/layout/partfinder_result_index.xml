@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants PartFinder
+ * @package   Mageants_PartFinders
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="catalogsearch_result_index" />
+	<body>
+		<attribute name="class" value="partfinder-result-with-filter"/>
+		<referenceContainer name="sidebar.main">
+			<referenceBlock name="catalogsearch.leftnav" remove="true"/>
+			<!-- below is the virtual type of the core navigation we created -->
+			<block class="Magento\LayeredNavigation\Block\Navigation\Category" name="catalog.leftnav" before="-" template="Mageants_PartFinder::layer/view.phtml" ifconfig="mageants_partfinder/general/enable">
+				<block class="Magento\LayeredNavigation\Block\Navigation\State" name="catalog.navigation.state" as="state" />
+				<block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Magento_LayeredNavigation::layer/filter.phtml"/>
+			</block>
+		</referenceContainer>
+	</body>
+</page>
+

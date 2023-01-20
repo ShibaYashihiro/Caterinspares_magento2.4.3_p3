@@ -1,0 +1,19 @@
+<div class="block block-compare">
+	<div class="block-title">
+	    <strong role="heading" aria-level="2">Recently Viewed Products</strong>
+	</div>
+</div>
+
+<?php
+
+/**
+ * @var \Customization\Customer\Block\Product\Recentproducts $block
+ */
+
+//echo $block->sayHello();
+
+$collection = $block->getProductCollection();
+foreach ($collection as $_product) {
+    echo $product->getName() . ' - ' . $product->getProductUrl() . '<br />';
+}
+

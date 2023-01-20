@@ -1,0 +1,170 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$subcateobj = $objectManager->create('Magento\Catalog\Model\Category');
+$categories = $block->getcategories(); 
+?>
+<ul class="shop-by-categories">
+    <div class="row categories-holder">
+        <?php
+        foreach ($categories as $category) {
+            // echo $category->getId() . ' -> ' . $category->getName() . ' '.$category->getUrl() .'</br>';
+        ?>
+        <li class="item col-xxs col-xs-6 col-sm-6 col-md-4 col-lg-3">
+            <div class="category-inner">
+                <a class="category-name" href="<?php echo $category->getUrl(); ?>" style="height: 61px;"><span><?php echo $category->getName(); ?></span></a>
+                <ul class="sub-category-list" style="height: 257px;">
+                    <?php
+                    $catId = $category->getId();  //Parent Category ID
+                    $subCategory = $subcateobj->load($catId);
+                    $subCats = $subCategory->getChildrenCategories();
+                    $i=0;
+                     foreach ($subCats as $subCat) {
+                         if($i < 5){
+                    ?>
+                    <li><a href="<?php echo $subCat->getUrl(); ?>"><?php echo $subCat->getName(); ?></a></li>
+                    <?php
+                         }
+                         $i++;
+                    }
+                    ?>
+                    <div class="hidden-category-items">
+                        <?php
+                            $i=0;
+                            foreach ($subCats as $subCat) {
+                            if($i > 4){
+                        ?>
+                        <li><a href="<?php echo $subCat->getUrl(); ?>"><?php echo $subCat->getName(); ?></a></li>
+                        <?php
+                            }
+                            $i++;
+                        }
+                        ?>
+                        <button type="button" name="reveal-items" class="hide-cat">Hide</button>
+                    </div>
+                    <?php 
+                    if(count($subCats) >5){
+                    ?>
+                    <button type="button" name="reveal-items" class="show-cat">View All</button>
+                    <?php
+                    }
+                    ?>
+                </ul>
+                <div class="inner-shop-now">
+                    <a href="<?php echo $category->getUrl(); ?>" class="action">Shop Now</a>
+                </div>
+            </div>
+        </li>
+        <?php
+        }
+        ?>
+    </div>
+</ul>
+<style>
+    .page-title-wrapper .container .page-title{
+        font-size:40px;
+        color:#27337e;
+        margin:0px;
+    }
+    .page-title-wrapper .container{
+        border-bottom: 5px solid #27337e; 
+        margin-bottom:0.7em;
+    }
+    ul.shop-by-categories {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    ul.shop-by-categories .item {
+        margin-bottom: 30px;
+    }
+    ul.shop-by-categories .item .category-inner {
+        border: 1px solid #eaeaea;
+        padding: 0 15px 20px;
+        box-sizing: border-box;
+    }
+    ul.shop-by-categories .item .category-inner a.category-name {
+        display: table;
+        color: #0051b2;
+        border-bottom: 4px solid #0051b2;
+        margin-bottom: 15px;
+        font-size: 18px;
+        width: 100%;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 0 0 6px 0;
+    }
+    ul.shop-by-categories .item .category-inner > * {
+        width: 100%;
+        flex-basis: 100%;
+    }
+    ul.shop-by-categories .item .category-inner ul {
+        position: relative;
+        width: calc(100% + 30px);
+        margin: 0 -15px 15px;
+        padding: 0;
+        list-style-type: none;
+    }
+    ul.shop-by-categories .item .inner-shop-now {
+        align-self: flex-end;
+        margin-top: 15px;
+    }
+    ul.shop-by-categories .item .category-inner ul li {
+        padding: 10px 0;
+        margin: 0 15px;
+        border-bottom: 1px solid #eaeaea;
+    }
+    ul.shop-by-categories .item .category-inner a.category-name span {
+        display: table-cell;
+        vertical-align: bottom;
+    }
+    ul.shop-by-categories .item .category-inner ul li a {
+        color: #333;
+        transition: background-color 400ms linear;
+    }
+    ul.shop-by-categories .item .hidden-category-items {
+        display: none;
+    }
+    ul.shop-by-categories .item button[name="reveal-items"] {
+        border: none;
+        background: transparent;
+        color: #0051b2;
+        font-weight: 700;
+        padding: 0;
+        position: relative;
+        margin: 10px 15px 0 15px;
+    }
+    ul.shop-by-categories .item .hidden-category-items.reveal {
+        display: block;
+        position: absolute;
+        left: -1px;
+        width: calc(100% + 2px);
+        padding-bottom: 10px;
+        background: #fff;
+        border: 1px solid #eaeaea;
+        border-top: none;
+        z-index: 999;
+    }
+    ul.shop-by-categories .item .inner-shop-now a{
+        padding: 5px;
+        background: #27337e;
+        color: white;
+        text-transform: uppercase;
+    }
+    
+</style>
+<script>
+    require(['jquery'], function($) {
+        $(window).ready(function () {
+            $('.show-cat').click(function(){
+                $(this).hide();
+                $(this).parent().addClass('open');
+                $(this).prev().addClass('reveal');
+            });
+            $('.hide-cat').click(function(){
+                $(this).parent().next().show();
+                $(this).parent().removeClass('reveal');
+                $(this).parent().parent().removeClass('open');
+            });
+        });
+    });
+</script>

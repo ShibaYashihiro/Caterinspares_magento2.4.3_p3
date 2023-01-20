@@ -1,0 +1,602 @@
+<?php
+ /**
+ * @category  Mageants Part Finder
+ * @package   Mageants_PartFinder
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+
+namespace Mageants\PartFinder\Setup;
+
+use Magento\Framework\Setup\InstallSchemaInterface;
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\SchemaSetupInterface;
+use Magento\Store\Model\StoreManagerInterface;
+
+class InstallSchema implements InstallSchemaInterface
+{
+	protected $StoreManager;         
+	
+	public function __construct(StoreManagerInterface $StoreManager)       
+	{                
+		$this->StoreManager=$StoreManager;        
+	}
+	
+    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    {
+        $installer = $setup;
+
+        $installer->startSetup();
+		
+		/*Part Finder Table*/
+		
+        $table  = $installer->getConnection()
+            ->newTable($installer->getTable('mageants_partfinders'))
+            ->addColumn(
+                'id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'unique primary Id'
+            )
+			->addColumn(
+                'filter_option_count',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Filter option count'
+            )
+			->addColumn(
+                'name',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['default' => null],
+                'Part Finder Name'
+            )
+            ->addColumn(
+                'finder_template',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                1,
+                ['default' => null],
+                'Finder Template [default = 0,horizontal = 1, verticle = 2,responsive = 3]'
+            )
+			->addColumn(
+                'search_result_url',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                1,
+                [],
+                'Show search result on custom url'
+            )
+            ->addColumn(
+                'created_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [],
+                'Part Finder Created At'
+            )
+            ->addColumn(
+                'updated_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [],
+                'Part Finder Updated At'
+            )
+			->addIndex(  
+				$installer->getIdxName(  
+					$installer->getTable('mageants_partfinders'),  
+					['name'],  
+					\Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_FULLTEXT  
+				),  
+				['name'],
+				['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_FULLTEXT]
+			);
+		
+		$installer->getConnection()->createTable($table);
+		
+		
+		/*Part Finder Option Table*/
+		
+        $table  = $installer->getConnection()
+            ->newTable($installer->getTable('mageants_partfinders_option'))
+            ->addColumn(
+                'id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'unique primary Id'
+            )
+			->addColumn(
+                'finder_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Finder id'
+            )
+			->addColumn(
+                'name',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['default' => null],
+                'Part Finder Name'
+            )
+            ->addColumn(
+                'is_range',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Use For range values'
+            )			
+            ->addColumn(
+                'sort_order',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'option display order'
+            )  
+			->addForeignKey(
+                $installer->getFkName(
+                    'PF_FINDER_N_OPTION',
+                    'finder_id',
+                    $installer->getTable('mageants_partfinders'),
+                    'id'
+                ),
+                'finder_id',
+                $installer->getTable('mageants_partfinders'),
+                'id',
+                \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+            );
+            
+		
+		$installer->getConnection()->createTable($table);
+		
+		
+		/*Part Finder Option Values Table*/
+		
+		
+        $table  = $installer->getConnection()
+            ->newTable($installer->getTable('mageants_partfinder_option_values'))
+            ->addColumn(
+                'id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'unique primary Id'
+            )
+			->addColumn(
+                'parent_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Self reference for parent id '
+            )
+			->addColumn(
+                'option_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Option id fefrence of finder option table'
+            )
+			->addColumn(
+                'value',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['default' => null],
+                'Option Value'
+            )	
+			->addForeignKey(
+                $installer->getFkName(
+                    'PF_OPTION_N_VALUE',
+                    'option_id',
+                    $installer->getTable('mageants_partfinders_option'),
+                    'id'
+                ),
+                'option_id',
+                $installer->getTable('mageants_partfinders_option'),
+                'id',
+                \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+            )
+			->addForeignKey(
+                $installer->getFkName(
+                    'PF_OPTION_SELF_REF',
+                    'parent_id',
+                    $installer->getTable('mageants_partfinder_option_values'),
+                    'id'
+                ),
+                'finder_id',
+                $installer->getTable('mageants_partfinder_option_values'),
+                'id',
+                \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+            );
+			
+		$installer->getConnection()->createTable($table);
+		
+		
+		/*Part Finder Option Value Map Table*/
+		
+        $table  = $installer->getConnection()
+            ->newTable($installer->getTable('mageants_partfinder_option_value_map'))
+            ->addColumn(
+                'id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'unique primary Id'
+            )
+			->addColumn(
+                'value_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Reference Id of value'
+            )
+			->addColumn(
+                'product_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Option id fefrence of finder option table'
+            )
+			->addColumn(
+                'sku',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['default' => null],
+                'Product SKU'
+            )
+			->addForeignKey(
+                $installer->getFkName(
+                    'PF_VALUE_N_MAP',
+                    'value_id',
+                    $installer->getTable('mageants_partfinder_option_values'),
+                    'id'
+                ),
+                'value_id',
+                $installer->getTable('mageants_partfinder_option_values'),
+                'id',
+                \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+            );
+			
+		$installer->getConnection()->createTable($table);
+		
+		
+		/*Part Finder Universal Product Table*/
+		
+        $table  = $installer->getConnection()
+            ->newTable($installer->getTable('mageants_partfinder_universal_product'))
+            ->addColumn(
+                'id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'unique primary Id'
+            )
+			->addColumn(
+                'finder_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Reference Id of finders'
+            )
+			->addColumn(
+                'product_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Option id fefrence of finder option table'
+            )
+			->addColumn(
+                'sku',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['default' => null],
+                'Product SKU'
+            )			
+			->addForeignKey(
+                $installer->getFkName(
+                    'PF_FINDER_N_UNIPROD',
+                    'finder_id',
+                    $installer->getTable('mageants_partfinders'),
+                    'id'
+                ),
+                'finder_id',
+                $installer->getTable('mageants_partfinders'),
+                'id',
+                \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+            );
+			
+		$installer->getConnection()->createTable($table);
+		
+		
+		/*Part Finder Import Files Table*/
+		
+        $table  = $installer->getConnection()
+            ->newTable($installer->getTable('mageants_partfinder_import_files'))
+            ->addColumn(
+                'id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'unique primary Id'
+            )
+			->addColumn(
+                'finder_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Reference Id of finders'
+            )
+			->addColumn(
+                'file_name',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['default' => null],
+                'Impoprted File Name'
+            )
+			->addColumn(
+                'import_start_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [],
+                'Import Start Time'
+            )			
+			->addColumn(
+                'import_update_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [],
+                'Import Update Time'
+            )
+			->addColumn(
+                'import_ended_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [],
+                'Import End Time'
+            )
+			->addColumn(
+                'total_row',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                255,
+                ['default' => null],
+                'Total Csv Row '
+            )
+			->addColumn(
+                'processed_rows',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                255,
+                ['default' => null],
+                'Proccessesed Row '
+            )
+			->addColumn(
+                'status',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                255,
+                ['default' => null],
+                'status'
+            )
+			->addColumn(
+                'is_locked',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                255,
+                ['default' => null],
+                'lock for delete files'
+            )
+            ->addColumn(
+                'created_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [],
+                'Part Finder Files Created At'
+            )
+            ->addColumn(
+                'updated_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [],
+                'Part Finder FIles Updated At'
+            )		
+			->addForeignKey(
+                $installer->getFkName(
+                    'PF_FINDER_N_IMPFILES',
+                    'finder_id',
+                    $installer->getTable('mageants_partfinders'),
+                    'id'
+                ),
+                'finder_id',
+                $installer->getTable('mageants_partfinders'),
+                'id',
+                \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+            );
+			
+		$installer->getConnection()->createTable($table);
+		
+				
+		/*Part Finder Import Files History Table*/
+		
+        $table  = $installer->getConnection()
+            ->newTable($installer->getTable('mageants_partfinder_import_files_history'))
+            ->addColumn(
+                'id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'unique primary Id'
+            )
+			->addColumn(
+                'finder_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Reference Id of finders'
+            )
+			->addColumn(
+                'import_file_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Reference Id of finders'
+            )
+			->addColumn(
+                'file_name',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['default' => null],
+                'Impoprted File Name'
+            )
+			->addColumn(
+                'import_start_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [],
+                'Import Start Time'
+            )
+			->addColumn(
+                'import_ended_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [],
+                'Import End Time'
+            )
+			->addColumn(
+                'total_row',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                255,
+                ['default' => null],
+                'Total Csv Row '
+            )
+			->addColumn(
+                'processed_rows',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                255,
+                ['default' => null],
+                'Proccessesed Row '
+            )
+			->addColumn(
+                'count_errors',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                255,
+                ['default' => null],
+                'Count Total Error '
+            )		
+			->addForeignKey(
+                $installer->getFkName(
+                    'PF_IMPORTFILE_N_IMPFILESHISTORY',
+                    'import_file_id',
+                    $installer->getTable('mageants_partfinder_import_files'),
+                    'id'
+                ),
+                'import_file_id',
+                $installer->getTable('mageants_partfinder_import_files'),
+                'id',
+                \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+            )
+			->addForeignKey(
+                $installer->getFkName(
+                    'PF_FINDER_N_IMPFILESHISTORY',
+                    'finder_id',
+                    $installer->getTable('mageants_partfinders'),
+                    'id'
+                ),
+                'finder_id',
+                $installer->getTable('mageants_partfinders'),
+                'id',
+                \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+            );
+			
+		$installer->getConnection()->createTable($table);
+				
+		/*Part Finder Import Files LogsTable*/
+		
+        $table  = $installer->getConnection()
+            ->newTable($installer->getTable('mageants_partfinder_import_files_logs'))
+            ->addColumn(
+                'id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'unique primary Id'
+            )
+			->addColumn(
+                'import_file_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'Reference Id of finders'
+            )
+			->addColumn(
+                'finder_import_history_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'feference of Import Csv History id'
+            )
+			->addColumn(
+                'row_number',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['default' => null],
+                'row number'
+            )
+			->addColumn(
+                'message',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['default' => null],
+                'Error Message'
+            )
+			->addColumn(
+                'import_start_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [],
+                'Import Start Time'
+            )
+			->addColumn(
+                'create_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [],
+                'Import End Time'
+            )
+			->addForeignKey(
+                $installer->getFkName(
+                    'PF_IMPORTLOG_N_IMPFILES',
+                    'import_file_id',
+                    $installer->getTable('mageants_partfinder_import_files'),
+                    'id'
+                ),
+                'finder_id',
+                $installer->getTable('mageants_partfinder_import_files'),
+                'id',
+                \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+            )
+			->addForeignKey(
+                $installer->getFkName(
+                    'PF_IMPORTLOG_N_IMPFILESHISTORY',
+                    'finder_import_history_id',
+                    $installer->getTable('mageants_partfinder_import_files_history'),
+                    'id'
+                ),
+                'finder_import_history_id',
+                $installer->getTable('mageants_partfinder_import_files_history'),
+                'id',
+                \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+            );
+			
+		$installer->getConnection()->createTable($table);
+		
+		
+		$service_url = 'https://www.mageants.com/index.php/rock/register/live?ext_name=Mageants_PartFinder&dom_name='.$this->StoreManager->getStore()->getBaseUrl();
+		$curl = curl_init($service_url);     
+		curl_setopt_array($curl, array(            
+			CURLOPT_SSL_VERIFYPEER => false,            
+			CURLOPT_RETURNTRANSFER => true,            
+			CURLOPT_POST => true,            
+			CURLOPT_FOLLOWLOCATION =>true,            
+			CURLOPT_ENCODING=>'',            
+			CURLOPT_USERAGENT => 'Mozilla/5.0'        
+		));                
+		$curl_response = curl_exec($curl);        
+		curl_close($curl);
+    }
+}

@@ -1,0 +1,4 @@
+<?php
+if($this->isRevoulutionActive() && $alias = $this->revolutionSliderAlias()) {
+	echo $this->getLayout()->createBlock('Nwdthemes\Revslider\Block\Revslider')->setAlias($alias)->toHtml();
+}

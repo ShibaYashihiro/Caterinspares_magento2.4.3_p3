@@ -1,0 +1,102 @@
+<?php
+$theme_helper = $this->helper('Olegnax\Athlete2\Helper\Helper');
+$at_settings = $block->getConfig('athlete2_settings');
+$header_classes = 'header--layout-1';
+$menu_position	 = $at_settings['header']['menu_position'];
+$sticky_header	 = $at_settings['header']['sticky_header'];
+$header_classes .= ' header__menu--position-' . $menu_position;
+$show_toplinks = $at_settings['header']['show_top_links'];
+$disable_topline = $at_settings['header']['disable_topline'];
+$topline_block_left = $theme_helper->getBlockTemplateProcessor( $at_settings['header']['top_left_static'] );
+$topline_block_right = $theme_helper->getBlockTemplateProcessor( $at_settings['header']['top_right_static'] );
+if( $at_settings['header']['header_fullwidth'] ) {
+	$header_classes .= ' header--full-width';
+}
+$toggleNavText = $at_settings['mobile_header']['mobile_header_menu_text'];
+if( $toggleNavText ) {
+	$toggleNavText = '<span>' . $block->escapeHtml($toggleNavText) . '</span>';	
+}
+
+?>
+<div class="page-header <?php echo $block->escapeHtmlAttr($header_classes) ?>"<?php if( $sticky_header ) { echo ' data-role="OXsticky" data-mage-init=\'{"OXsticky":{}}\''; } ?>>
+	<div class="sticky-wrapper">
+	<div class="container">
+		<?php if( ! $disable_topline ){ ?>
+			<div class="top-bar flex-row">
+				<div class="flex-left">
+				<?php
+				$language		 = $this->getChildHtml( 'store_language' );
+				$currency		 = $this->getChildHtml( 'currency' );
+				echo $language . $currency;
+				?>
+				<?php if (  ! empty( $topline_block_left ) ) { echo '<div class="topline-block">' . $topline_block_left . '</div>'; } ?>
+				</div>
+				<div class="flex-right flex-row" data-move-desktop="header.main.right" data-move-back="header.main.left">
+					<?php if (  ! empty( $topline_block_right ) ) { echo '<div class="topline-block">' . $topline_block_right . '</div>'; } ?>
+					<?php if ( $show_toplinks ) { echo $this->getChildHtml( 'top_links' ); } ?>
+					
+				</div>
+			</div>
+		<?php } ?>
+
+		<div class="row position_rl">
+			
+			<div class="logo__container">
+					<?php echo $this->getChildHtml( "logo" ); ?>
+			</div>
+            <div class="mainaddress_cont">
+                <div class="ph_cont">
+                    <div class="header-info-text">
+                        <span class="fl-bigmug-line-phone351"></span><a href="callto:0297009731" style="color:#fff;">(02) 97009731</a>
+                    </div>
+                    <div class="header-info-text"><a href="callto:0297007711" style="color:#fff;">(02) 97007711</a></div>
+			    </div>
+                <div class="adds_cont">
+                    <div class="footer-info-2" style="color:#fff;">Sydney office: 12/54 Beach St<br /> Kogarah NSW 2217</div>
+                </div>
+                <div class="maincart_cont">
+                    <?php echo $this->getChildHtml( 'minicart' ); ?>
+                </div>
+            </div>
+			
+			
+			
+			
+			
+		</div>
+		
+	</div>
+	<div class="col header__content-wrapper">
+		<div class="container">
+			<div class="header__content flex-row search-visible">
+				<div class="flex-left" data-move-mobile="header.main.left" data-move-sticky="header.main.left">
+					<div data-action="toggle-mobile-nav" class="action slide-out-menu--mobile"><div class="hamburger-menu-icon-small"><span></span><span></span><span></span></div><?= $toggleNavText ?></div>
+					<?php if ( $menu_position == 1 ) echo $this->getChildHtml( 'top.menu' ); ?>
+					<?php if ( $menu_position == 2 ) : ?>
+						<div class="header__additional-content">
+							<?php echo $block->getLayout()->createBlock( 'Magento\Cms\Block\Block' )->setBlockId( 'athlete2-header-text' )->toHtml(); ?>
+						</div>
+					<?php endif ?>
+				</div>
+				<div class="flex-right flex-row" data-move-mobile="header.main.right" data-move-sticky="header.main.right">
+					<?php echo $this->getChildHtml( 'top.search' ) ?>
+					<?php
+						if($at_settings['header']['account_position'] == 'main') {
+							echo $this->getChildHtml("header_account");
+						}
+						if($at_settings['header']['compare_position'] == 'main') {
+							echo $this->getChildHtml("header_compare");
+						}
+						if($at_settings['header']['wishlist_position'] == 'main') {
+							echo $this->getChildHtml("header_wishlist");
+						}
+					?>
+				</div>
+			</div>
+		</div>
+		</div>
+	<?php if ( $menu_position == 2 ) : ?>
+		<div class="header-nav-wide"><?php echo $this->getChildHtml( 'top.menu' );  ?></div>
+	<?php endif ?>
+</div>
+</div>

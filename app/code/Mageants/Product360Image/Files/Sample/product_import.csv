@@ -1,0 +1,2 @@
+product_id,setting,images
+[product_id],[product_id]|[Height]|[Width]|[Autoplay Speed]|[Fulscreen]|[Ease And Blur]|[Images Mode]|[Number Of Frames]|[Number Of Frame in Row],[position]|[File Name]|[File location (put files in ‘var’ folder of module)] (import next image with comma saporated string)

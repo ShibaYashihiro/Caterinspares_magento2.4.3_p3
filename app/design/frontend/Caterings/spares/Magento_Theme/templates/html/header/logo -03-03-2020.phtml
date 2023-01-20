@@ -1,0 +1,71 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+
+/**
+ * @var \Magento\Theme\Block\Html\Header\Logo $block
+ */
+$at_settings = $this->helper('Olegnax\Athlete2\Helper\Helper')->getConfig('athlete2_settings/logo');
+$_helper = $this->helper('Olegnax\Athlete2\Helper\CssFiles');
+/*$OxlogoImage = '';
+if (isset($at_settings['logo_upload']) && !empty($at_settings['logo_upload'])) {
+    $OxlogoImage = $_helper->getBaseMediaUrl(Olegnax\Athlete2\Model\Config\Backend\Image\Logo::UPLOAD_DIR) . "/" . $at_settings['logo_upload'];
+} else {
+    $OxlogoImage = $block->getLogoSrc();
+}*/
+$OxlogoImage = $block->getLogoSrc();
+$OxRetinalogoImage = '';
+if (isset($at_settings['logo_upload_retina']) && !empty($at_settings['logo_upload_retina'])) {
+    $OxRetinalogoImage = $_helper->getBaseMediaUrl(Olegnax\Athlete2\Model\Config\Backend\Image\Logo::UPLOAD_DIR) . "/" . $at_settings['logo_upload_retina'];
+}
+
+$OxLogoStyle = '';
+if ($block->getLogoWidth() || $block->getLogoHeight()) {
+    if ($block->getLogoWidth()) {
+        $OxLogoStyle .= 'max-width: ' . $block->escapeHtmlAttr($block->getLogoWidth()) . 'px;';
+    }
+    if ($block->getLogoHeight()) {
+        $OxLogoStyle .= 'max-height:' . $block->escapeHtmlAttr($block->getLogoHeight()) . 'px;';
+    }
+    if ($OxLogoStyle) {
+        $OxLogoStyle = 'style="' . $OxLogoStyle . '"';
+    }
+}
+?>
+<?php $storeName = $block->getThemeName() ? $block->getThemeName() : $block->getLogoAlt(); ?>
+<?php if ($block->isHomePage()): ?>
+<strong class="logo">
+	<?php else: ?>
+	<a
+			class="logo"
+			href="<?= $block->escapeUrl($block->getUrl('')) ?>"
+			title="<?= $block->escapeHtmlAttr($storeName) ?>"
+			aria-label="store logo">
+		<?php endif ?>
+		<img src="<?= $block->escapeUrl($OxlogoImage) ?>"
+			 title="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+			 alt="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+			<?= $OxLogoStyle ?>
+			<?= $block->getLogoWidth() ? 'width="' . $block->escapeHtmlAttr($block->getLogoWidth()) . '"' : '' ?>
+			<?= $block->getLogoHeight() ? 'height="' . $block->escapeHtmlAttr($block->getLogoHeight()) . '"' : '' ?>
+		/>
+		<?php if ($OxRetinalogoImage) {
+                 ?>
+			<img class="retina" src="<?= $block->escapeUrl($OxRetinalogoImage) ?>"
+				 title="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+				 alt="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+				<?= $OxLogoStyle ?>
+				<?= $block->getLogoWidth() ? 'width="' . $block->escapeHtmlAttr($block->getLogoWidth()) . '"' : '' ?>
+				<?= $block->getLogoHeight() ? 'height="' . $block->escapeHtmlAttr($block->getLogoHeight()) . '"' : '' ?>
+			/>
+			<?php
+             } ?>
+		<?php if ($block->isHomePage()): ?>
+			
+</strong>
+<?php else: ?>
+	</a>
+<?php endif ?>

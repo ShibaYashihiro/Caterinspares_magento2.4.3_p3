@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+ * @category  Mageants Part Finder
+ * @package   Mageants_PartFinder
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <container name="root" label="Root">
+        <block class="Mageants\PartFinder\Block\Adminhtml\PartFinders\Edit\Tab\ImportFilesGrid" name="partfinder.partfinders.edit.tab.importfilesgrid"/>
+        <block class="Magento\Backend\Block\Widget\Grid\Serializer" name="slides_grid_serializer">
+            <arguments>
+                <argument name="grid_block" xsi:type="string">partfinder.partfinders.edit.tab.importfilesgrid</argument>
+                <argument name="callback" xsi:type="string">getImportedFilesGrid</argument>
+                <argument name="input_element_name" xsi:type="string">importfilesgrid</argument>
+                <argument name="reload_param_name" xsi:type="string">partfinder_importfilesgrid</argument>
+            </arguments>
+        </block>
+    </container>
+</layout>

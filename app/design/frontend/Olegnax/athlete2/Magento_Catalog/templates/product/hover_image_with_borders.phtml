@@ -1,0 +1,57 @@
+<?php
+/**
+ * Athlete2 Theme
+ * 
+ * @author      Olegnax
+ * @package     Olegnax_Athlete2
+ * @copyright   Copyright (c) 2019 Olegnax (https://olegnax.com). All rights reserved.
+ * @license     https://www.olegnax.com/license
+ */
+
+$lazy			 = $this->helper( 'Olegnax\Athlete2\Helper\Helper' )->getConfig( 'athlete2_settings/general/lazyload' );
+?>
+<?php /** @var $block \Magento\Catalog\Block\Product\Image */ ?>
+
+<span class="product-image-container ox-product-hover-image-container"
+	  style="width:<?= $block->escapeHtmlAttr($block->getWidth()) ?>px;">
+	<span class="product-image-wrapper"
+		  style="padding-bottom: <?= ($block->getRatio() * 100) ?>%;">
+			  <?php if ( $lazy ) : ?>
+			<img class="product-image-photo product-first-image-photo lazy"
+			<?= $block->escapeHtmlAttr($block->getCustomAttributes()) ?>
+				 src="<?= $this->getViewFileUrl( 'Olegnax_Core/images/preloader-img.svg' ); ?>"
+				 data-original="<?= $block->escapeUrl($block->getImageUrl()) ?>"
+				 width="<?= $block->escapeHtmlAttr($block->getWidth()) ?>"
+				 height="<?= $block->escapeHtmlAttr($block->getHeight()) ?>"
+				 alt="<?=
+				 /* @noEscape */ $block->stripTags( $block->getLabel(), null, true )
+				 ?>"/>
+			<img class="product-image-photo product-second-image-photo lazy"
+			<?= $block->escapeHtmlAttr($block->getCustomAttributes()) ?>
+				 src="<?= $this->getViewFileUrl( 'Olegnax_Core/images/preloader-img.svg' ); ?>"
+				 data-original="<?= $block->escapeUrl($block->getImageHoverUrl()) ?>"
+				 width="<?= $block->escapeHtmlAttr($block->getWidth()) ?>"
+				 height="<?= $block->escapeHtmlAttr($block->getHeight()) ?>"
+				 alt="<?=
+				 /* @noEscape */ $block->stripTags( $block->getLabelHover(), null, true )
+				 ?>"/>
+			 <?php else : ?>
+			<img class="product-image-photo product-first-image-photo"
+			<?= $block->escapeHtmlAttr($block->getCustomAttributes()) ?>
+				 src="<?= $block->escapeUrl($block->getImageUrl()) ?>"
+				 width="<?= $block->escapeHtmlAttr($block->getWidth()) ?>"
+				 height="<?= $block->escapeHtmlAttr($block->getHeight()) ?>"
+				 alt="<?=
+				 /* @noEscape */ $block->stripTags( $block->getLabel(), null, true )
+				 ?>"/>
+			<img class="product-image-photo product-second-image-photo"
+				 <?= $block->escapeHtmlAttr($block->getCustomAttributes()) ?>
+				 src="<?= $block->escapeUrl($block->getImageHoverUrl()) ?>"
+				 width="<?= $block->escapeHtmlAttr($block->getWidth()) ?>"
+				 height="<?= $block->escapeHtmlAttr($block->getHeight()) ?>"
+				 alt="<?=
+				 /* @noEscape */ $block->stripTags( $block->getLabelHover(), null, true )
+				 ?>"/>
+			 <?php endif; ?>
+	</span>
+</span>

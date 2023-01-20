@@ -1,0 +1,87 @@
+# Stages
+stages:
+  - build
+  - lint
+  - code-style
+
+
+build:
+  type: build
+  image: mamis/php-build:7.2
+  artifacts:
+    untracked: true
+    expire_in: 7 days
+    paths:
+      - ./
+  before_script:
+    ##
+    ## Add composer authentication keys
+    ##
+    - mkdir -p ~/.composer
+    - echo "$COMPOSER_AUTH" > ~/.composer/auth.json
+
+  script:
+    - php --version
+    - composer --version
+    - composer install --verbose --prefer-dist --no-progress --no-interaction --optimize-autoloader
+
+
+.php-linter: &php-linter
+  stage: lint
+  dependencies:
+    - build
+  script:
+    - php --version
+    - parallel-lint --version
+    - parallel-lint --exclude ./vendor ./
+
+php-5.5-linter:
+  <<: *php-linter
+  image: mamis/php-build:5.5
+
+php-5.6-linter:
+  <<: *php-linter
+  image: mamis/php-build:5.6
+
+php-7.0-linter:
+  <<: *php-linter
+  image: mamis/php-build:7.0
+
+php-7.1-linter:
+  <<: *php-linter
+  image: mamis/php-build:7.1
+
+php-7.2-linter:
+  <<: *php-linter
+  image: mamis/php-build:7.2
+
+php-depreciations-linter:
+  stage: lint
+  image: mamis/php-build:7.2
+  dependencies:
+    - build
+  script:
+    - php --version
+    - phpcf --version
+    - phpcf --target=7.2 --exclude=vendor ./
+
+phpcs-psr2:
+  stage: code-style
+  image: mamis/php-build:7.2
+  dependencies:
+    - build
+  script:
+    - php -v
+    - phpcs --version
+    - phpcs --colors --standard=PSR2 --ignore=./vendor --report=full,summary,gitblame .
+  allow_failure: true
+
+phpcs-magento2:
+  stage: code-style
+  image: mamis/php-build:7.2
+  dependencies:
+    - build
+  script:
+    - php -v
+    - phpcs --version
+    - phpcs --colors --warning-severity=0 --standard=Magento2 --ignore=./vendor --report=full,summary,gitblame . --runtime-set installed_paths vendor/magento/magento-coding-standard/Magento2

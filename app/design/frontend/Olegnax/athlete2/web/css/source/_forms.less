@@ -1,0 +1,271 @@
+// /**
+//  * Copyright © Magento, Inc. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+//
+//  Variables
+//  _____________________________________________
+
+@form-field__vertical-indent__desktop: 29px;
+@form-calendar-icon__color: @primary__color;
+
+.ox-input-simple-underlined(){
+    border: none;
+    border-bottom: 2px solid #c6c6c6;
+    background-color: transparent;    
+    padding: 0;
+    transition: all 0.4s;
+    border-radius:0;
+    &:focus,
+    &:hover{
+        border-bottom: 2px solid #000;
+    }
+    &.mage-error{
+        border-color: @form-element-validation__border-error;
+    }
+}
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    .inputs-style--underlined{
+        input[type="text"], 
+        input[type="password"], 
+        input[type="url"], 
+        input[type="tel"], 
+        input[type="search"], 
+        input[type="number"], 
+        input[type="datetime"], 
+        input[type="email"],
+        select,
+        textarea{
+            .ox-input-simple-underlined();
+        }
+        select{
+            padding: 0 35px 0 0;
+            background-position: calc(~"100% - 6px");
+            option{
+                padding-left:0;
+            }
+        }
+    }
+
+    /* remove the arrow in IE */
+    select::-ms-expand {	
+        display: none; 
+    }
+    select{
+        -webkit-appearance: none;
+        appearance: none;
+        background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgOCA4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA4IDg7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBwb2ludHM9IjYuMywxLjcgNCw0IDEuNywxLjcgMC42LDIuOCA0LDYuMyA0LDYuMyA0LDYuMyA3LjQsMi44ICIvPjwvc3ZnPg==);
+        background-position: 96% center;
+        background-position: calc(~"100% - 12px") center;
+        background-size: 11px 10px;
+        background-repeat: no-repeat;
+    }
+    .inputs-style--underlined{
+        .fieldset {
+            > .field,
+            > .fields > .field {
+                .label {
+                    margin-bottom:-5px;
+                }
+            }
+            > .fields > .field.choice,
+            > .field.choice{
+                .label {
+                    margin-bottom:0;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    font-size: 13px;
+                }
+            }            
+        }
+    }
+    .fieldset {
+        .lib-form-fieldset();
+        &:last-child {
+            margin-bottom: 0;
+        }
+        > .legend{
+            .lib-heading(h4);
+            .at-headings();
+            margin-bottom: 32px;
+            margin-top: 0;
+        }
+        > .field,
+        > .fields > .field {
+            .lib-form-field();
+
+            &.no-label {
+                > .label {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+
+            &.choice {
+                .label {
+                    display: inline;
+                    font-weight: normal;
+                }
+            }
+            &:not(.choice){
+                .label {
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    font-size: 13px;
+                    position: relative;
+                }
+            }
+
+            .field.choice {
+                margin-bottom: @indent__s;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+            input[type=file] {
+                margin: @indent__xs 0;
+            }
+        }
+    }
+
+    .legend + .fieldset,
+    .legend + div {
+        clear: both;
+    }
+
+    .legend {
+        strong {
+            margin-left: @indent__xs;
+        }
+    }
+
+    fieldset.field {
+        border: 0;
+        padding: 0;
+    }
+
+    .field {
+        &.date {
+            &:extend(.abs-field-date all);
+
+            .time-picker {
+                display: inline-block;
+                margin-top: @indent__s;
+                white-space: nowrap;
+            }
+        }
+
+        .message {
+            &.warning {
+                margin-top: @indent__s;
+            }
+        }
+    }
+
+    .field-error,
+    div.mage-error[generated] {
+        margin-top: 4px;
+        background: red;
+        display:inline-block;
+        padding:4px 7px 4px;
+    .lib-form-validation-note(
+            @_note-color: white;
+            @_note-font-size: 13px;
+            @_note-font-weight: 500;
+            @_note-padding: 2px 7px;
+
+        )
+        
+    }
+
+    .field-error {
+        .lib-form-validation-note();
+    }
+
+    .field .tooltip {
+        .lib-tooltip(right);
+        .tooltip-content {
+            min-width: 200px;
+            white-space: normal;
+        }
+    }
+
+    input:focus ~ .tooltip .tooltip-content,
+    select:focus ~ .tooltip .tooltip-content {
+        display: block;
+    }
+
+    ._has-datepicker {
+        ~ .ui-datepicker-trigger {
+            .lib-button-reset();
+            .lib-icon-font(
+            @_icon-font-content: @icon-calendar,
+            @_icon-font-color: @primary__color__lighter,
+            @_icon-font-size: @icon-calendar__font-size,
+            @_icon-font-line-height: @icon-calendar__font-size,
+            @_icon-font-display: block,
+            @_icon-font-text-hide: true
+            );
+            display: inline-block;
+            vertical-align: middle;
+
+            &:focus {
+                box-shadow: none;
+                outline: 0;
+            }
+        }
+    }
+
+    //
+    //  Sidebar forms
+    //  -----------------------------------------
+
+    .sidebar {
+        .fieldset {
+            margin: 0;
+
+            > .field:not(.choice) >,
+            .fields > .field {
+                &:not(:last-child) {
+                    margin: 0 0 @form-field__vertical-indent;
+                }
+
+                .label {
+                    margin: 0 0 4px;
+                    padding: 0 0 @indent__xs;
+                    text-align: left;
+                    width: 100%;
+                }
+
+                .control {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .fieldset {
+        /*.legend {
+            &:extend(.abs-margin-for-forms-desktop all);
+        }*/
+
+        > .field {
+            /*.lib-form-field-type-revert();*/
+            margin: 0 0 @form-field__vertical-indent__desktop;
+
+        }        
+    }
+}

@@ -1,0 +1,62 @@
+<?php
+/**
+ * Olegnax BrandSlider
+ * 
+ * This file is part of Olegnax/Core.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Olegnax.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.olegnax.com/license
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Olegnax
+ * @package     Olegnax_BrandSlider
+ * @copyright   Copyright (c) 2019 Olegnax (http://www.olegnax.com/)
+ * @license     https://www.olegnax.com/license
+ */
+$slider_id			 = $block->getSliderId();
+$brands				 = $block->getItems();
+$athleteImgHelper	 = $this->helper( 'Olegnax\BrandSlider\Helper\Image' );
+$customArrows		 = true;
+
+if ( 0 < count( $brands ) ) :
+	?>
+	<div id="<?= $slider_id ?>" class="block widget ox-brand-slider__container">
+		<?php if ( $customArrows ) { ?>
+			<div class="ox-nav-sideline">
+				<div id="<?= $slider_id ?>_list_nav" class="owl-nav ox-owl-nav">				
+					<button class="owl-prev ox-owl-prev"><span>&nbsp;</span></button>
+					<button class="owl-next ox-owl-next"><span>&nbsp;</span></button>
+				</div>
+			</div>
+		<?php } ?>
+		<div id="<?= $slider_id ?>_list" class="ox-carousel__brands owl-carousel" data-mage-init='{"OXBrandsSlider":<?=
+		json_encode( [
+			'autoScroll'	 => $block->getAutoScroll(),
+			'slideBy'		 => $block->getScrollItems(),
+			'rewind'		 => (bool) $block->getRewind(),
+			'responsive'	 => $block->getResponsive( false ),
+			'slideWidth'	 => $block->getWidth(),
+			'slideHeight'	 => $block->getHeight(),
+		] );
+		?>}'>
+				<?php foreach ( $brands as $brand ) : ?>
+					<?php
+					$size	 = [ $block->getWidth(), $block->getHeight() ];
+					$url	 = $athleteImgHelper->adaptiveResize( $brand->getImageName(), $size )->getUrl();
+					if($athleteImgHelper->_imageExist){ 
+					?>
+						<div class="ox-brand__slide slide<?= $brand->getValue(); ?>">
+							<a href="<?= $block->getBrandUrl( $brand ); ?>"><span></span><img src="<?php echo $url; ?>" alt="<?php echo $brand->getLabel(); ?>" width="<?php echo $block->getWidth() ?>" height="<?php echo $block->getHeight() ?>" class="ox-brand-slider__image"/></a>
+						</div>
+					<?php } ?>
+			<?php endforeach; ?>
+		</div>
+	</div>
+<?php endif; ?>

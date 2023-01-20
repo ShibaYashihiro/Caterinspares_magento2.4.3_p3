@@ -1,0 +1,25 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/* @var \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Comment $block  */
+
+/* @var \Magento\Wishlist\Model\Item $item */
+$item = $block->getItem();
+ /*--------------------Update Button Block call-----------------------*/ 
+ $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+
+ $update_button_block = $objectManager->get('\Magento\Wishlist\Block\Customer\Wishlist\Button');
+ 
+?>
+
+
+<textarea id="product-item-comment-<?= $block->escapeHtmlAttr($item->getWishlistItemId()) ?>" placeholder="<?= /* @noEscape */ $this->helper(\Magento\Wishlist\Helper\Data::class)->defaultCommentString() ?>" name="description[<?= $block->escapeHtmlAttr($item->getWishlistItemId()) ?>]" title="<?= $block->escapeHtmlAttr(__('Comment')) ?>" class="product-item-comment" <?= $item->getProduct()->isSaleable() ? '' : 'disabled="disabled"' ?>><?= ($block->escapeHtml($item->getDescription())) ?></textarea>
+   
+<?php if ($update_button_block->getWishlist()->getItemsCount()) : ?>
+    <button type="submit" name="do" title="<?= $update_button_block->escapeHtmlAttr(__('Update Wish List')) ?>" class="button btn-update button-secondary">
+        <span><?= $update_button_block->escapeHtml(__('Update Wish List')) ?></span>
+    </button>
+<?php endif;?>

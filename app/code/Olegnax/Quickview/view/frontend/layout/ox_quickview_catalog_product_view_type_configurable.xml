@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">    
+    <body>
+        <move element="product.info.addto2" destination="product.info.options.wrapper.bottom" after="-"/>
+        <move element="product_view_ox_social2" destination="product.info.options.wrapper.bottom" after="-"/>
+        <referenceBlock name="goto.product" remove="true"/>
+    </body>
+</page>

@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * Olegnax BannerSlider
+ * 
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Olegnax.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.olegnax.com/license
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Olegnax
+ * @package     Olegnax_BannerSlider
+ * @copyright   Copyright (c) 2019 Olegnax (http://www.olegnax.com/)
+ * @license     https://www.olegnax.com/license
+ */
+
+$slider_id = $block->getSliderId();
+$slides = $block->getSlides();
+$slideGroup = $block->getGroup();
+$athleteImgHelper = $this->helper('Olegnax\BannerSlider\Helper\Image');
+$customArrows= true;
+$nolazy = ($block->getLazyLoad() === 'exclude') ?: 0;
+$bannerSize = $block->getSizeBig();
+if($bannerSize){
+	$bannerSize ='ox-banner-medium';
+}
+if ( 0 < count( $slides ) ) :
+?>
+	<div id="<?= $slider_id ?>" class="block widget ox-banners-slider__container <?=  $bannerSize ?>">
+		<?php if( $customArrows ) { ?>
+		<div id="<?= $slider_id ?>_list_nav" class="owl-nav ox-owl-nav">
+			<button class="owl-prev ox-owl-prev"><span>&nbsp;</span></button>
+			<button class="owl-next ox-owl-next"><span>&nbsp;</span></button>
+		</div>
+		<?php } ?>
+		<div id="<?= $slider_id ?>_list" class="ox-banner__banners owl-carousel" data-mage-init='{"OXBannerSlider":<?= json_encode([
+					 'autoScroll' => $block->getAutoScroll(),
+					 'slideBy' => $block->getScrollItems(),
+					 'rewind' => (bool)$block->getRewind(),
+					 'lazyLoad' => !(bool)$nolazy,
+					 'responsive' => $block->getResponsive(false),
+					 'slideWidth' => $slideGroup->getSlideWidth(),
+					 'slideHeight' => $slideGroup->getSlideHeight(),
+				 ]); ?>}'>
+				 <?php foreach ($slides as $slide) : ?>
+				<div class="ox-banner__slide slide<?= $slide->getData('slider_id'); ?>" style="<?= $block->prepareStyle(['background-color' => $slide->getData('slide_bg')]) ?>">
+					<?php
+							$styles = array();
+							if (!empty($slide->getData('title_color'))) { $styles[] = '#' . $slider_id. ' .slide' . $slide->getData('slider_id') .' .ox-banner__text-container .text{ color:' . $slide->getData('title_color') . '}'; }
+							if (!empty($slide->getData('title_hover_color'))) { $styles[] = '#' . $slider_id. ' .slide' . $slide->getData('slider_id') .' .ox-banner__text-container .animate-me .text{ color:' . $slide->getData('title_hover_color') . '}'; }
+							if (!empty($slide->getData('title_bg'))) { $styles[] = '#' . $slider_id. ' .slide' . $slide->getData('slider_id') .' .ox-banner__text-container .text{ background-color:' . $slide->getData('title_bg') . '}'; }
+							if (!empty($slide->getData('title_hover_bg'))) { $styles[] = ' #' .  $slider_id. ' .slide' . $slide->getData('slider_id') .' .ox-banner__text-container .text:after{ background-color:' . $slide->getData('title_hover_bg') . '}'; }
+						if ( !empty($styles) ){ 
+							echo '<style>' . implode(' ', $styles) . '</style>'; 						
+						}
+						unset($styles);
+					?>
+					<a href="<?= $slide->getData('link_href'); ?>" class="ox-banner__link-wrapper">
+						<span class="ox-banner__text-container <?= $slide->getData('title_position'); ?>">
+							<?php
+							$title = $slide->getData('title');
+							if (!empty($title)) {
+								$title = explode("\n", $title);
+
+								echo '<span class="text">' . implode('</span><br/><span class="text">', $title) . '</span><br/>';
+							}
+
+							$link_text = $slide->getData('link_text');
+							if (!empty($link_text)) {
+								$_style = $block->prepareStyle([
+									'color' => $slide->getData('link_color'),
+									'background-color' => $slide->getData('link_bg')
+								]);
+								echo '<em class="link" style="' . $_style . '">' . $link_text . '</em>';
+							}
+							?>
+						</span>
+
+						<?php
+						if (!empty($slide['image'])) :
+							$size = [$slideGroup->getSlideWidth(), $slideGroup->getSlideHeight()];
+							$url = $athleteImgHelper->adaptiveResize($slide['image'], $size)->getUrl();
+							$urlX2 = '';
+							if (!empty($slide['imageX2'])) {
+								foreach ($size as &$_size) {
+									$_size *= 2;
+								}
+								$urlX2 = $athleteImgHelper->adaptiveResize($slide['imageX2'], $size)->getUrl();
+							}							
+							if($nolazy):
+							?>
+								<img src="<?php echo $url; ?>" alt="" <?php echo ($urlX2 ? 'data-srcX2="' . $urlX2 . '"' : '' ); ?> width="<?php echo $slideGroup->getSlideWidth() ?>" height="<?php echo $slideGroup->getSlideHeight() ?>" class="ox-banner-slider__image no-lazy"/>
+							<?php else: ?>
+								<img src="<?php echo $this->getViewFileUrl('Olegnax_Core/images/preloader-img.svg'); ?>" data-src="<?php echo $url; ?>" alt="" <?php echo ($urlX2 ? 'data-srcX2="' . $urlX2 . '"' : '' ); ?> width="<?php echo $slideGroup->getSlideWidth() ?>" height="<?php echo $slideGroup->getSlideHeight() ?>" class="owl-lazy ox-banner-slider__image"/>
+							<?php endif; ?>
+						<?php endif; ?>
+					</a>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+<?php endif; ?>

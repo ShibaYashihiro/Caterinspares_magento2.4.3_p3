@@ -1,0 +1,8 @@
+<?php 
+$option_children = $block->getFinderOptionChlidren();
+$selected_opt = $block->getSelectedOption();
+?>
+<option value=""><?php echo __("Please Select ...")?></option>
+<?php foreach($option_children as $key=>$child):?>
+	<option <?php echo strtolower(html_entity_decode($child->getValue())) == html_entity_decode($selected_opt) ? "selected":"";?> value="<?php echo $child->getId()?>"><?php echo $child->getValue()?></option>
+<?php endforeach?>

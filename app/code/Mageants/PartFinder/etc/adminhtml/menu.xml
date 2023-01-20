@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+ /**
+ * @category  Mageants Part Finder
+ * @package   Mageants_PartFinder
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+			<add id="Mageants_PartFinder::partfinder" title="Part Finder" module="Mageants_PartFinder" 
+				sortOrder="51" resource="Mageants_PartFinder::partfinder" parent="Magento_Catalog::catalog" />
+				
+			<add id="Mageants_PartFinder::partfinders" title="Part Finders" module="Mageants_PartFinder" 
+				sortOrder="10" action="mageants_partfinder/partfinders" resource="Mageants_PartFinder::partfinders" 
+				parent="Mageants_PartFinder::partfinder"/>			
+    </menu>
+</config>
+

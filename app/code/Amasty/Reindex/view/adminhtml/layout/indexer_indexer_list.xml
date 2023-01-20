@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2020 Amasty (https://www.amasty.com)
+ * @package Amasty_Reindex
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="indexer_indexer_list_grid"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Amasty\Reindex\Block\Adminhtml\Buttons" name="amreindexbuttons"/>
+            <block class="Magento\Backend\Block\Template" name="amreindexStatusChecker" template="Amasty_Reindex::status_checker.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="adminhtml.indexer.grid.grid.massaction">
+            <arguments>
+                <argument name="options" xsi:type="array">
+                    <item name="amreindex" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Reindex</item>
+                        <item name="url" xsi:type="string">amreindex/reindex/massReindex</item>
+                    </item>
+                    <item name="amreindex_reset" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Reset</item>
+                        <item name="url" xsi:type="string">amreindex/reindex/massReset</item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="adminhtml.indexer.grid.columnSet">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" name="adminhtml.indexer.grid.columnSet.indexer_reset" as="indexer_reset" after="indexer_status">
+                <arguments>
+                    <argument name="header" xsi:type="string" translate="true">Reset</argument>
+                    <argument name="index" xsi:type="string">indexer_id</argument>
+                    <argument name="renderer" xsi:type="string">Amasty\Reindex\Block\Backend\Grid\Column\Renderer\Reset</argument>
+                    <argument name="sortable" xsi:type="string">0</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

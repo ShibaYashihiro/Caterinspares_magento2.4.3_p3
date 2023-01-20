@@ -1,0 +1,122 @@
+<a id="refreshpreview" title="Refresh" href="#" class="action- scalable action-secondary refreshpreview page-actions"  >
+    <span><?php echo __('Refresh Preview')?></span>
+</a>
+<a id="product360fullscreen" title="Fullscreen" href="#" class="action- scalable action-secondary refreshpreview page-actions"  >
+    <span><?php echo __('Full Screen')?></span>
+</a>
+<br>
+<div class="sample-view" id="prod360view">
+    <div class="spritespin-0"></div>
+</div>
+  <script>
+require(['jquery','spritespin'],function ($){
+     $(function(){
+         var product360spin = jQuery('.spritespin-0');
+         var i =0;
+        $("#refreshpreview").on('click',function(){
+            product360spin.remove();
+            product360spin = jQuery('<div class="spritespin-'+ (++i) + '">')
+            callPreview()
+            product360spin.appendTo("#prod360view")
+            return false;
+        })
+        
+        function getImageSource()
+        {
+            var img_mode = $("#product360setting_images_mode").val()
+            if(img_mode == 0)
+            {
+                var images = [];
+                 $(".image.item").each(function(i){
+                    var img_url = $(this).find('input[name*=url]').val();
+                    images[i] = img_url;
+                 })
+                if (images.length == 1) {
+                    $.merge(images, images)
+                }
+                 return images;
+            }
+            else
+            {
+                return  $(".image.item").first().find('input[name*=url]').val();
+            }
+            
+        }
+        
+        function processFullScreenMode()
+        {             
+            var fullscreen = $("#product360setting_enable_fullscreen").val();
+            
+            if(fullscreen == 1)
+            {   
+                $('a#product360fullscreen').click(function(e){
+                  e.preventDefault();
+                  product360spin.spritespin('api').requestFullscreen();
+                }).show();
+            }
+            else
+            {
+                    $('a#product360fullscreen').hide();
+            }
+        }
+        function setZoomAndEaseBlur()
+        {
+            var mods = [];
+            
+            mods.push('360')
+            
+            var easeblur = $("#product360setting_enable_ease_blur").val()
+            
+            if(easeblur == 1)
+            {
+                mods.push('drag')
+                mods.push('ease')
+                mods.push('blur')
+            }
+            
+            return mods;
+        }
+        function getSpinData()
+        {
+            var args = {};
+            
+            args[ 'source' ] = getImageSource();
+            
+            $("[name*=product360setting]").each(function(i){
+                var option = $(this).attr('id').replace('product360setting_','') ;              
+                args[ option ] = $(this).val() ;                
+            })
+            
+            args.reverse = false;
+            
+            
+            args.mods = setZoomAndEaseBlur();
+            
+            processFullScreenMode();
+            
+            return args;
+        }
+        
+        function callPreview()
+        {
+            var data = getSpinData()
+            
+            
+            var img_mode = $("#product360setting_images_mode").val()
+            
+            if(img_mode != 0)
+            {
+                if(!data.frames || !data.framesX)
+                {
+                    alert('<?php echo __("Error!, please set value of \\' Number Of Frames \\'  and \\' Number Of Frame in Row \\'.")?>');
+                    return;
+                }
+            }
+            product360spin.spritespin(data);
+        }
+        setTimeout(function(){ callPreview(); }, 500);
+        //callPreview();
+        
+    });
+})
+</script>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!--<referenceBlock name="catalog.compare.sidebar" remove="true"/>
+        <referenceBlock name="wishlist_sidebar" remove="true"/>-->
+        <referenceContainer name="sidebar.additional">
+            <block class="MGS\Blog\Block\Sidebar" name="blog.sidebar" template="MGS_Blog::sidebar.phtml" after="-"/>
+            <block class="Magento\Framework\View\Element\Template" name="cart.sidebar" template="Magento_Catalog::sidebar_cart.phtml" before="-"/>
+
+            <!--<block class="Magento\Framework\View\Element\Template" name="recently.viewed.products.sidebar" template="Magento_Catalog::sidebar_recently_view_products.phtml" after="-"/>-->
+            <block class="Magento\Catalog\Block\Widget\RecentlyViewed" name="recently_viewed" template="Magento_Catalog::product/widget/viewed/grid.phtml" after="-">
+                <arguments>
+                    <argument name="uiComponent" xsi:type="string">widget_recently_viewed</argument>
+                    <argument name="page_size" xsi:type="number">4</argument>
+                    <argument name="show_attributes" xsi:type="string">name,image</argument>
+                </arguments>
+            </block>
+
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="MGS\Blog\Block\Category\Posts" name="category_post_list" template="MGS_Blog::category/posts.phtml"/>
+
+        </referenceContainer>
+        <referenceBlock name="blog.sidebar" remove="true"/>
+        
+         
+        
+    </body>
+</page>

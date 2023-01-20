@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+ /**
+ * @category  Mageants Part Finder
+ * @package   Mageants_PartFinder
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+	<!-- Start Override RouterList XML-->
+	<type name="Magento\Framework\App\RouterList">
+        <arguments>
+            <argument name="routerList" xsi:type="array">
+                <item name="mageants_partfinder" xsi:type="array">
+                    <item name="class" xsi:type="string">Mageants\PartFinder\Controller\Router</item>
+                    <item name="disable" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="string">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+	<!-- End Override RouterList XML-->
+	
+	<!-- Start Core Search Result Block XML-->
+	  <preference for="Magento\CatalogSearch\Block\Result" type="Mageants\PartFinder\Block\Frontend\Core\SearchResult" />
+	<!-- End Core Search Result Block XML-->
+	
+	<!-- Start Category Model XML-->
+	  <!-- <preference for="Magento\Catalog\Model\ResourceModel\Category" type="Mageants\PartFinder\Model\Core\Catalog\ResourceModel\Category" /> -->
+	<!-- End Category Model XML-->
+	<!-- Start Layer Navigation XML-->	
+	<type name="Magento\Catalog\Model\Layer">
+        <plugin name="custom_product_model_layer" type="Mageants\PartFinder\Plugin\Layer" />
+    </type>
+
+    <virtualType name="categoryFilterList" type="Magento\Catalog\Model\Layer\FilterList">
+        <arguments>
+            <argument name="filters" xsi:type="array">
+                <item name="attribute" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Attribute</item>
+                <item name="price" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Price</item>
+                <item name="decimal" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Decimal</item>
+                <item name="category" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Category</item>
+            </argument>
+        </arguments>
+    </virtualType>
+	<!-- End Layer Navigation XML-->
+</config>

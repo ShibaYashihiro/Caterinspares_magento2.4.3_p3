@@ -1,0 +1,28 @@
+<?php
+/** @var \Olegnax\Athlete2\Helper\Helper $theme_helper */
+$theme_helper = $this->helper(\Olegnax\Athlete2\Helper\Helper::class);
+/** var \Olegnax\Athlete2\Block\Html\PrevNextProduct $block */
+if ($theme_helper->getModuleConfig('product/prev_next')):
+	$link_sufix = $this->getIsNext() ? 'next' : 'previous';
+	$next = $this->escapeHtml(__('Next'));
+	$prev = $this->escapeHtml(__('Previous'));
+	$label_text = $this->getIsNext() ? $next : $prev;
+	if ($this->isProductExists()): ?>
+		<a href="<?php echo $this->getProductUrl() ?>" class="ox-prev-next__link ox-product-link-<?= $link_sufix; ?>"
+		   rel="<?= $link_sufix; ?>">
+		<span class="content-wrapper">
+			<span class="inner">
+			<span class="content">
+				<span class="name"><?php echo $this->getName(); ?></span>
+				<span class="label"><?= $label_text; ?></span>
+			</span>
+				<span class="image-wrapper"><span
+							class="overlay"></span><?php echo $this->getResizedImage('category_page_grid', [125, 145])->toHtml(); ?></span>
+			</span>
+		</span>
+			<span class="ox-prev-next__arrow"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+												   viewBox="0 0 20 20" xml:space="preserve">
+<polygon points="15.8,10.5 6.6,1.4 5.2,2.8 12.9,10.5 5.2,18.3 6.6,19.7 15.8,10.5 15.8,10.5 "/></svg></span>
+		</a>
+	<?php endif; ?>
+<?php endif; ?>

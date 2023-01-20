@@ -1,0 +1,172 @@
+<?php
+/*$productjson = $this->getProduct360Json();
+$jsondecode = json_decode($productjson);
+$jsonarray = (array) $jsondecode;
+$sourseImages = $jsonarray['source'];*/
+
+if($this->hasProduct360View()/* && (!empty($sourseImages))*/):
+?>
+<div class="product-options-bottom">
+    <div class="fieldset">
+        <div class="actions">               
+            <a id="refreshpreview" title="Refresh" class="action primary tocart toggleview"  >
+                <span style="display:block;"><?php echo __('Switch to 360 View')?></span>
+                <span style="display:none;"><?php echo __('Switch to Normal View')?></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div id="product360-view" style="display:none;">
+    <?php if($this->hasFullscreenEnable()) : ?>
+    <a id="product360fullscreen" title="Fullscreen" href="#" class="action primary tocart" >
+        <span><?php echo __('Full Screen')?></span>
+    </a>
+    <?php endif?>
+    <div class="spritespin"></div>
+</div>
+<script>
+ require(['jquery','spritespin','loader'],function ($){
+     $(function(){
+         var product360spin = jQuery('.spritespin');
+        var  style = "";
+        var  style1 = "";
+        jQuery(window).resize(function(){
+            spritespin();
+        });
+        jQuery(window).load(function(){
+            spritespin();
+        });
+        
+        function spritespin() {
+            var is_iPad = navigator.userAgent.match(/iPad/i) != null;
+            // is iPad
+            if(is_iPad){
+                if (jQuery(window).width() == 1024 && jQuery(window).height() == 1366) {
+                    if(screen.orientation.angle == 0){
+                        jQuery('.spritespin.spritespin-instance.with-canvas').css( "width", "550px" );
+                    }
+                }else{
+                    if (jQuery(window).width() == 1366 && jQuery(window).height() == 1024) {
+                        jQuery('.spritespin.spritespin-instance.with-canvas').css( "width", "600px" );   
+                    }else{
+                        if(screen.orientation.angle == 0)
+                        {
+                            jQuery('.spritespin.spritespin-instance.with-canvas').css( "width", "414px" );
+                        }
+                        else{
+                            jQuery('.spritespin.spritespin-instance.with-canvas').css( "width", "500px" );
+                        }
+                    }
+                }
+            } else{
+                if (jQuery(window).width() < 767) {
+                    jQuery('.spritespin.spritespin-instance.with-canvas').css( "width", "100%" );
+                    jQuery('.spritespin.spritespin-instance.with-canvas').css( "height", "250px" );
+                }
+            }
+        }
+
+        $( document ).ready(function() {
+            //$(".toggleview").click();
+        });
+        $(".toggleview").on('click',function(){
+            $(".gallery-placeholder").addClass("custom-loading");
+            //Start Loader
+            $("#product360-view,.gallery-placeholder").trigger('processStart');
+            
+            $(this).find("span").toggle();
+             var stg = $(".fotorama__stage");
+            var stg_grab = $(".fotorama__stage .fotorama__stage__shaft.fotorama__grab");
+            
+            var s = stg.attr("style");
+            var s1 = stg_grab.attr("style");
+            
+            if(stg.width()){ style = s; }else{ stg.attr('style',style); }
+            if(stg_grab.width()){ style1 = s1; }else{ stg_grab.attr('style',style1); setTimeout (function(){$(window).trigger('resize')},500);} 
+            
+            $("#product360-view,.gallery-placeholder").toggle();
+            
+            if($('.gallery-placeholder').css("display") == "none")
+            {
+                $(".loading-mask").appendTo($("#product360-view"));
+                $(".ox-product-labels-wrapper").hide();
+            }
+            else{
+                $(".loading-mask").appendTo($(".gallery-placeholder"));
+                $(".ox-product-labels-wrapper").show();
+            }
+            //Stop Loader
+            setTimeout (function(){
+                $("#product360-view,.gallery-placeholder").trigger('processStop');
+            },500);
+        });
+        
+        <?php if($this->hasFullscreenEnable()) : ?>
+        $('a#product360fullscreen').click(function(e){
+          e.preventDefault();
+          product360spin.spritespin('api').requestFullscreen();
+        })
+        <?php endif?>
+        product360spin.spritespin(<?php echo $this->getProduct360Json()?>);
+    });
+      
+}) 
+</script>
+
+<?php endif?>
+<style type="text/css">
+    #product360-view {
+        position: relative;
+    }
+
+    #product360-view .loading-mask {
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        bottom: auto;
+        height: 100%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        width: 100%;
+        text-align: center;
+    }
+    
+    .custom-loading {
+        position: relative;
+    }
+    .custom-loading .loading-mask {
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        bottom: auto;
+        height: 100%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        width: 100%;
+        text-align: center;
+    }
+
+    a#refreshpreview {
+        position: relative;
+        z-index: 2;
+    }
+
+    @media only screen and (min-width: 768px) {
+
+        .product.media360 {
+            width: 57%;
+            float: left;
+        }
+
+        .product.media360 .product.media {
+            width: 100%;
+        }
+    }
+    .product.media360 .product-options-bottom{
+        display: inline-block;
+        float: right;
+        margin-right: 20px;
+    }
+
+
+</style>

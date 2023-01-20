@@ -1,0 +1,66 @@
+& when (@media-common = true) {
+    .page-header{
+        .navigation {
+            > ul{
+                padding: 0 0 0 24px;
+            }
+            text-transform: uppercase;
+            .level0 {
+                letter-spacing: -1px;
+                >.level-top{
+                    transition: color 0.3s ease;
+                    &:before {
+                        width: 100%;
+                        content: '';
+                        height: 100%;
+                        position: absolute;
+                        background: @main-color;
+                        display: block;
+                        z-index: -1;
+                        left: 0;
+                        transform: scaleY(0);
+                        transition: transform 0.3s ease;
+                        transform-origin: 100% 0;
+                    }
+                    span{
+                        display: inline-table;
+                    }
+                }
+                &:hover{
+                    >.level-top{
+                        color:#000000;
+                        transition: color 0.1s ease;
+                        &:before {
+                            transform: scaleY(1);
+                            transition: transform 0.1s ease;
+                        }
+                    }
+                }
+                
+                .submenu {
+                    padding: 20px;
+                    .submenu {
+                        top: -20px !important;
+                        left: 80% !important;
+                    }
+                    li{
+                        margin-bottom:2px;
+                    }
+                    a{
+                        text-transform: uppercase;
+                        display: inline-block;
+                        line-height: 1;
+                    }
+                }
+                &.has-active,
+                &.active {
+                    >.level-top {
+                        &:before {
+                            transform: scaleY(1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

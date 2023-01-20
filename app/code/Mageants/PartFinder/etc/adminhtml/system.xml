@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--
+ /**
+ * @category  Mageants Part Finder
+ * @package   Mageants_PartFinder
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Config/etc/system_file.xsd">
+	<system>
+		<tab id="mageants" translate="label" sortOrder="10">
+			<label>Mageants</label>
+		</tab>
+		<section id="mageants_partfinder" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Part Finder</label>
+			<tab>mageants</tab>
+			<resource>Mageants_PartFinder::mageants_partfinder</resource>
+			<group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>General</label>
+				<field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable Part Finder</label>
+					<source_model>Mageants\PartFinder\Model\Source\StatusExtention</source_model>
+					<comment>
+						`Enable / Disable Part Finder` setting.
+					</comment>
+				</field>
+				<field id="display_btn" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable Finder Button When</label>
+					<source_model>Mageants\PartFinder\Model\Source\ButtonDisplay</source_model>						
+				</field>					
+				<field id="allow_universal_prod" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Allow to add universal product in search result</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>		
+					<comment>
+						Allows to add set of products to search result, but might effect with page speed 
+					</comment>
+				</field>	
+				<field id="apply_filter_on_curr_cat" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Apply filter for current category only</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>					
+				</field>
+				<field id="custom_result_url" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Custom Search Result URL</label>
+					<comment>
+						Eg. search-result-cateogry.html. Set only if you want to set common url for search result. 
+					</comment>
+				</field>
+				<field id="auto_start_search" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Auto start search when last option select</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>					
+				</field>
+				<!-- <field id="reset_on_home" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Reset finder to Home Page</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>					
+				</field>
+				
+				<field id="clear_finder_session" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>clear other finders condition</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>					
+				</field> -->
+			</group>
+			<group id="import" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Import</label>
+				<field id="history_lyf_time" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Import History Lifetime (days)</label>
+				</field>	
+				<field id="max_row_import" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Max row per import</label>
+				</field>	
+			</group>
+		</section>
+	</system>
+</config>

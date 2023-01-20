@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+ /**
+ * @category  Mageants Part Finder
+ * @package   Mageants_PartFinder
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Magento/Store/etc/config.xsd">
+    <default>
+        <mageants_partfinder>
+            <general>
+                <enable>0</enable>                
+                <display_btn>0</display_btn>                
+                <allow_universal_prod>0</allow_universal_prod>                
+                <apply_filter_on_curr_cat>0</apply_filter_on_curr_cat>                
+                <auto_start_search>0</auto_start_search>                
+                <custom_result_url></custom_result_url>                
+                <reset_on_home>1</reset_on_home>                
+                <clear_finder_session>1</clear_finder_session>                                
+            </general>
+			<import>			
+				<history_lyf_time>30</history_lyf_time>                
+				<max_row_import>1000</max_row_import>                
+			</import>			
+        </mageants_partfinder>		
+    </default>
+</config>

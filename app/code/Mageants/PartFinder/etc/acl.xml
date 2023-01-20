@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Mageants_PartFinder::mageants_partfinder" title="Part Finder" sortOrder="50"></resource>
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Catalog::catalog">
+					<resource id="Mageants_PartFinder::partfinder" title="Part Finder" translate="title" sortOrder="10">
+						<resource id="Mageants_PartFinder::partfinders" title="Part Finders" translate="title" sortOrder="23">					
+								<resource id="Mageants_PartFinder::partfinders_grid" title="Part Finders Grid" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinder_new_edit" title="Create / Edit Part Finders" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinder_edit" title="Edit Part Finders" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinders_new" title="Create NEW Part Finders" sortOrder="20" />
+								<resource id="Mageants_PartFinder::partfinders_save" title="Save Part Finders" sortOrder="20" />
+								<resource id="Mageants_PartFinder::partfinders_delete" title="Delete Part Finders" sortOrder="20" />
+								<resource id="Mageants_PartFinder::partfinders_massdel" title="Mass Delete Part Finders" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinders_massapprove" title="Mass Approve Part Finders" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinder_csv_import" title="Part Finders Import CSV" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinder_csv_start_import" title="Part Finders Import CSV Start" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinder_csv_universal_import" title="Part Finders Universal CSV Import" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinders_delrow" title="Part Finders Product Row Delete" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinder_errorlog" title="Part Finders Error log" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinders_filedelete" title="Part Finders File Delete" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinder_edit_history" title="Part Finders Edit History" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinder_edit_import_grid" title="Part Finders File Import Grid" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinders_massdelete_universalproduct" title="Part Finders Mass Delete Universal Product" sortOrder="20" />
+                                <resource id="Mageants_PartFinder::partfinder_edit_universal_product" title="Part Finders Edit Universal Product" sortOrder="20" />
+						</resource>	
+					</resource>
+				</resource>
+			</resource>
+        </resources>
+    </acl>
+</config>
